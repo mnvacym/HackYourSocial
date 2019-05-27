@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://ammar123:ammar123@hackyoursocial-dwlwn.mongodb.net/test?retryWrites=true"
+  "mongoURI": "mongodb+srv://ammar123:ammar123@hackyoursocial-dwlwn.mongodb.net/test?retryWrites=true",
+  "jwtSecret": "mysecrettoken"
 }
