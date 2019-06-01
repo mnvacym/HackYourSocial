@@ -6,10 +6,11 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
 import setAuthToken from './utils/setAuthToken';
+
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import { loaduser } from './actions/auth';
+import { loadUser } from './actions/auth';
 
 import './App.css';
 
@@ -19,7 +20,7 @@ if (localStorage.token) {
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(loaduser());
+    store.dispatch(loadUser());
   }, []);
 
   return (
