@@ -14,5 +14,8 @@
   "facebook": {
     "clientId": "2422583161305477",
     "secret": "b217ce098723aa5c066651e8de3f0f4c"
+  },
+  "session": {
+    "cookieKey": "hackyoursocial"
   }
 }
