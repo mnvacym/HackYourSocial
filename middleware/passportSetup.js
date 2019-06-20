@@ -21,8 +21,8 @@ passport.use(
         console.log(user);
         return done(err, user);
       });
-    },
-  ),
+    }
+  )
 );
 
 // Facebook Strategy
@@ -40,8 +40,8 @@ passport.use(
         console.log(user);
         return done(err, user);
       });
-    },
-  ),
+    }
+  )
 );
 
 // Github Strategy
@@ -59,8 +59,8 @@ passport.use(
         console.log(user);
         return done(err, user);
       });
-    },
-  ),
+    }
+  )
 );
 
 // Serialization on cookie
