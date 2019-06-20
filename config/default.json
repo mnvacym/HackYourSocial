@@ -4,16 +4,16 @@
   "githubClientId": "de50a87630d9ed45b81d",
   "githubSecret": "b1a2ddad1fa5e0aa0495737ac99cf0766ac56a8e",
   "google": {
-    "clientId": "-GOOGLE-CLIENTID-",
-    "secret": "-GOOGLE-SECRET-"
+    "clientId": "18346263600-ls8p9q7atre6ahrbrl4kpcomioas4m35.apps.googleusercontent.com",
+    "secret": "MzEDBVxVDqA32wNkptlR2Wtt"
   },
   "github": {
-    "clientId": "-GITHUB-KEY-",
-    "secret": "-GITHUB-SECRET-"
+    "clientId": "9a7d3d69ee738065b9c9",
+    "secret": "fb2595a68f82c6a19bfdbe98911836402e8f258c"
   },
   "facebook": {
-    "clientId": "-FACEBOOK-KEY-",
-    "secret": "-FACEBOOK-SECRET-"
+    "clientId": "2422583161305477",
+    "secret": "b217ce098723aa5c066651e8de3f0f4c"
   },
   "session": {
     "cookieKey": "hackyoursocial"
