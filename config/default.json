@@ -2,5 +2,20 @@
   "mongoURI": "mongodb+srv://ammar123:ammar123@hackyoursocial-dwlwn.mongodb.net/test?retryWrites=true",
   "jwtSecret": "mysecrettoken",
   "githubClientId": "de50a87630d9ed45b81d",
-  "githubSecret": "b1a2ddad1fa5e0aa0495737ac99cf0766ac56a8e"
+  "githubSecret": "b1a2ddad1fa5e0aa0495737ac99cf0766ac56a8e",
+  "google": {
+    "clientId": "-GOOGLE-CLIENTID-",
+    "secret": "-GOOGLE-SECRET-"
+  },
+  "github": {
+    "clientId": "-GITHUB-KEY-",
+    "secret": "-GITHUB-SECRET-"
+  },
+  "facebook": {
+    "clientId": "-FACEBOOK-KEY-",
+    "secret": "-FACEBOOK-SECRET-"
+  },
+  "session": {
+    "cookieKey": "hackyoursocial"
+  }
 }
