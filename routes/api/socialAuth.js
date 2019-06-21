@@ -16,7 +16,7 @@ router.get(
   (req, res) => {
     //if (!req.token) res.json({ msg: 'No user in request' });
     const token = req.user;
-    res.json({ token });
+    res.redirect('http://localhost:3000/register?token=' + JSON.stringify(token));
   }
 );
 

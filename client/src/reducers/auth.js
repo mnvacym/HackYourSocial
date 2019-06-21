@@ -1,5 +1,6 @@
 import {
   REGISTER_SUCCESS,
+  SOCIAL_REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
@@ -7,7 +8,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   ACCOUNT_DELETED,
-  SOCIAL_REGISTER_SUCCESS,
 } from '../actions/types';
 
 const initialState = {

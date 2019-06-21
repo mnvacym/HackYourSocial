@@ -65,22 +65,13 @@ export const register = ({ name, email, password }) => async dispatch => {
 };
 
 // Register User by Social Account
-export const socialRegister = ({ name, email, googleId, imageUrl }) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  const body = JSON.stringify({ name, email, googleId, imageUrl });
+export const socialRegister = token => dispatch => {
   try {
-    const res = await axios.post('api/users/social', body, config);
+    console.log('aaa');
     dispatch({
       type: SOCIAL_REGISTER_SUCCESS,
-      payload: res.data,
+      payload: token,
     });
-
-    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
