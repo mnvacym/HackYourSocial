@@ -95,7 +95,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
             type='text'
             placeholder={skillActivated ? 'skill(s)' : 'location'}
             name={skillActivated ? 'skillName' : 'locationName'}
-            value={skillActivated ? skillName : locationName}
+            value={skillActivated ? skillName : locationName || ''}
             onChange={e => onChange(e)}
           />
         </div>
@@ -107,9 +107,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
         <input type='submit' className='btn btn-primary' value='Filter' />
       </form>
-      {/* <br /> */}
-      {/* <hr />
-      <hr /> */}
+
       <br />
       <h1>Filtering Results</h1>
       {loading ? (
