@@ -35,6 +35,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   };
 
   let filtered_profiles = [];
+<<<<<<< HEAD
 
   skillActivated
     ? // filter profiles by skills
@@ -51,6 +52,23 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   //     filtered_profiles.push(profile);
   //   }
   // });
+=======
+  {
+    skillActivated
+      ? // filter profiles by skills
+        profiles.map(profile => {
+          if (profile.skills.includes(skillName)) {
+            filtered_profiles.push(profile);
+          }
+        })
+      : // filter profiles by location
+        profiles.map(profile => {
+          if (profile.location === locationName) {
+            filtered_profiles.push(profile);
+          }
+        });
+  }
+>>>>>>> d2ecef519d292c558639f3248490ed4331280f29
 
   const skillOnClick = () => {
     console.log('clicked...');

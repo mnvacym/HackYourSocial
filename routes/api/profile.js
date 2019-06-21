@@ -72,12 +72,15 @@ router.post(
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
+    if (location) profileFields.location = location.toUpperCase();
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
-      profileFields.skills = skills.split(',').map(skill => skill.trim());
+      profileFields.skills = skills
+        .toUpperCase()
+        .split(',')
+        .map(skill => skill.trim());
     }
 
     // Build social object
@@ -114,6 +117,7 @@ router.post(
   }
 );
 
+<<<<<<< HEAD
 // Filtering Feature =============================
 // @route   GET api/profile/find_location/:location_name
 // @desc    Get profiles that have the input location
@@ -164,6 +168,8 @@ router.post(
 
 //================================================
 
+=======
+>>>>>>> d2ecef519d292c558639f3248490ed4331280f29
 // @route   GET api/profile
 // @desc    Get all profiles
 // @access  Public
