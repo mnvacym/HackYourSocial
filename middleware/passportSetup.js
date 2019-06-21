@@ -35,8 +35,8 @@ passport.use(
         return done(err, user);
       }); */
       done(null, profile);
-    },
-  ),
+    }
+  )
 );
 /*
 // Facebook Strategy
