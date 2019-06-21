@@ -95,7 +95,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
             type='text'
             placeholder={skillActivated ? 'skill(s)' : 'location'}
             name={skillActivated ? 'skillName' : 'locationName'}
-            value={skillActivated ? skillName : locationName || ''}
+            value={(skillActivated ? skillName : locationName) || ''}
             onChange={e => onChange(e)}
           />
         </div>
