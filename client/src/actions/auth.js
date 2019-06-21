@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   REGISTER_SUCCESS,
+  SOCIAL_REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
@@ -46,6 +47,31 @@ export const register = ({ name, email, password }) => async dispatch => {
 
     dispatch({
       type: REGISTER_SUCCESS,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: REGISTER_FAIL,
+    });
+  }
+};
+
+// Register User by Social Account
+export const socialRegister = profile => async dispatch => {
+  try {
+
+    const res = await axios.post('/api/auth/social', profile);
+
+    dispatch({
+      type: SOCIAL_REGISTER_SUCCESS,
       payload: res.data,
     });
 

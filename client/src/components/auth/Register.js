@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
+import { register, socialRegister } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
@@ -22,7 +22,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     if (password !== password2) {
       setAlert('Passwords do not match!', 'danger');
     } else {
-      register({ name, email, password });
+      register({ name, email, password }) || socialRegister({ name, email });
     }
   };
 
@@ -85,10 +85,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       {
         // Sign up with social account - buttons
       }
-      <a href="/auth/google" class="social-button-google">
+      <Link to="/api/auth/social/google" className="social-button-google">
         <div>
-          <span class="svgIcon t-popup-svg">
-            <svg class="svgIcon-use" width="25" height="37" viewBox="0 0 25 25">
+          <span className="svgIcon t-popup-svg">
+            <svg className="svgIcon-use" width="25" height="37" viewBox="0 0 25 25">
               <g fill="none" fill-rule="evenodd">
                 <path
                   d="M20.66 12.693c0-.603-.054-1.182-.155-1.738H12.5v3.287h4.575a3.91 3.91 0 0 1-1.697 2.566v2.133h2.747c1.608-1.48 2.535-3.65 2.535-6.24z"
@@ -109,9 +109,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
               </g>
             </svg>
           </span>
-          <span class="button-label">Sign in with Google</span>
+          <span className="button-label">Sign in with Google</span>
         </div>
-      </a>
+      </Link>
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
@@ -132,5 +132,5 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   // this helps us to reach setAlert within props
-  { setAlert, register }
+  { setAlert, register, socialRegister }
 )(Register);
