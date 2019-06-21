@@ -65,14 +65,13 @@ export const register = ({ name, email, password }) => async dispatch => {
 };
 
 // Register User by Social Account
-export const socialRegister = profile => async dispatch => {
+export const socialRegister = user => async dispatch => {
   try {
-
-    const res = await axios.post('/api/auth/social', profile);
-
+    const res = await axios.get('/api/auth/social/google');
+    console.log(res);
     dispatch({
       type: SOCIAL_REGISTER_SUCCESS,
-      payload: res.data,
+      payload: res,
     });
 
     dispatch(loadUser());
