@@ -10,14 +10,20 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
     getProfiles();
   }, [getProfiles]);
 
+  // skill state
   const [skill, setSkill] = useState('');
   const { skillName } = skill;
 
+  // location state
   const [location, setLocation] = useState('');
   const { locationName } = location;
 
+  // value state: to save the value input from the search bar
+  const [value, setValue] = useState('');
+  const { inputValue } = value;
+
   // identify which button is clicked to apply the filtering as per it.
-  const [activated, setActivated] = useState(true);
+  const [activated, setActivated] = useState(false);
   const { skillActivated, locationActivated } = activated;
 
   // dynamic select a fuction to set the state as per the state name clicked.
@@ -28,53 +34,40 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
     settingState = setLocation;
   }
 
+  // onChange
   const onChange = e => settingState({ [e.target.name]: e.target.value.toUpperCase() });
 
+  // click find button
   const onSubmit = async e => {
     e.preventDefault();
+    skillActivated ? setValue({ inputValue: skillName }) : setValue({ inputValue: locationName });
+    setSkill({ skillName: '' });
+    setLocation({ locationName: '' });
   };
 
+  // filter profiles by:
   let filtered_profiles = [];
-<<<<<<< HEAD
-
   skillActivated
-    ? // filter profiles by skills
-      // profiles.map(profile => {
-      //   if (profile.skills.includes(skillName)) {
-      //     filtered_profiles.push(profile);
-      //   }
-      // })
-      (filtered_profiles = profiles.filter(profile => profile.skills.includes(skillName)))
-    : // filter profiles by location
-      (filtered_profiles = profiles.filter(profile => profile.skills.includes(locationName)));
-  // profiles.map(profile => {
-  //   if (profile.location === locationName) {
-  //     filtered_profiles.push(profile);
-  //   }
-  // });
-=======
-  {
-    skillActivated
-      ? // filter profiles by skills
-        profiles.map(profile => {
-          if (profile.skills.includes(skillName)) {
-            filtered_profiles.push(profile);
-          }
-        })
-      : // filter profiles by location
-        profiles.map(profile => {
-          if (profile.location === locationName) {
-            filtered_profiles.push(profile);
-          }
-        });
-  }
->>>>>>> d2ecef519d292c558639f3248490ed4331280f29
+    ? // skills
+      profiles.map(profile => {
+        if (profile.skills.includes(inputValue)) {
+          filtered_profiles.push(profile);
+        }
+      })
+    : // location
+      profiles.map(profile => {
+        if (profile.location === inputValue) {
+          filtered_profiles.push(profile);
+        }
+      });
 
+  // click on skill
   const skillOnClick = () => {
     console.log('clicked...');
     setActivated({ skillActivated: true, locationActivated: false });
   };
 
+  // click on location
   const locationOnClick = () => {
     console.log('clicked...');
     setActivated({ skillActivated: false, locationActivated: true });
