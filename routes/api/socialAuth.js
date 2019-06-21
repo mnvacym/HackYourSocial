@@ -14,7 +14,7 @@ router.get(
   '/google/redirect',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log('redirect page');
+    if (!req.user) res.json({ msg: 'No user in request' });
     res.json(req.user);
   },
 );
