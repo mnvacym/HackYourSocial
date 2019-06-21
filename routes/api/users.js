@@ -27,6 +27,7 @@ router.post(
     }
 
     const { name, email, password } = req.body;
+    const { google, github, facebook } = req.body.social;
 
     try {
       // See if user exists
@@ -48,6 +49,11 @@ router.post(
         email,
         avatar,
         password,
+        social: {
+          google,
+          github,
+          facebook,
+        },
       });
 
       // Encrypt password

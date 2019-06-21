@@ -15,6 +15,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  socialProfile: null,
 };
 
 export default function(state = initialState, action) {
