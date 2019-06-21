@@ -119,48 +119,48 @@ router.post(
 // @desc    Get profiles that have the input location
 // @access  Public
 
-router.get('/find_location/:location_name', async (req, res) => {
-  try {
-    const profiles = await Profile.find({
-      location: req.params.location_name.toString(),
-    });
+// router.get('/find_location/:location_name', async (req, res) => {
+//   try {
+//     const profiles = await Profile.find({
+//       location: req.params.location_name.toString(),
+//     });
 
-    if (!profiles) return res.status(400).json({ msg: 'Profile not found!' });
+//     if (!profiles) return res.status(400).json({ msg: 'Profile not found!' });
 
-    return res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found!' });
-    }
-    res.status(500).send('Server Error!');
-  }
-});
+//     return res.json(profiles);
+//   } catch (err) {
+//     console.error(err.message);
+//     if (err.kind == 'ObjectId') {
+//       return res.status(400).json({ msg: 'Profile not found!' });
+//     }
+//     res.status(500).send('Server Error!');
+//   }
+// });
 
 // @route   GET api/profile/find_skill/:skill_name
 // @desc    Get profiles that have the input skill
 // @access  Public
 
-router.get('/find_skill/:skill_name', async (req, res) => {
-  try {
-    // let skillsArr = [];
-    const profiles = await Profile.where({
-      skills: req.params.skill_name,
-    });
-    console.log(profiles);
-    // profiles.where(skills: [req.params.skill_name.toString()]);
+// router.get('/find_skill/:skill_name', async (req, res) => {
+//   try {
+//     // let skillsArr = [];
+//     const profiles = await Profile.where({
+//       skills: req.params.skill_name,
+//     });
+//     console.log(profiles);
+//     // profiles.where(skills: [req.params.skill_name.toString()]);
 
-    if (!profiles) return res.status(400).json({ msg: 'Profile not found!' });
+//     if (!profiles) return res.status(400).json({ msg: 'Profile not found!' });
 
-    return res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found!' });
-    }
-    res.status(500).send('Server Error!');
-  }
-});
+//     return res.json(profiles);
+//   } catch (err) {
+//     console.error(err.message);
+//     if (err.kind == 'ObjectId') {
+//       return res.status(400).json({ msg: 'Profile not found!' });
+//     }
+//     res.status(500).send('Server Error!');
+//   }
+// });
 
 //================================================
 

@@ -11,40 +11,80 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   }, [getProfiles]);
 
   const [skill, setSkill] = useState('');
-
   const { skillName } = skill;
 
-  const onChange = e => setSkill({ [e.target.name]: e.target.value });
+  const [location, setLocation] = useState('');
+  const { locationName } = location;
+
+  // identify which button is clicked to apply the filtering as per it.
+  const [activated, setActivated] = useState(true);
+  const { skillActivated, locationActivated } = activated;
+
+  // dynamic select a fuction to set the state as per the state name clicked.
+  let settingState;
+  if (skillActivated) {
+    settingState = setSkill;
+  } else {
+    settingState = setLocation;
+  }
+
+  const onChange = e => settingState({ [e.target.name]: e.target.value.toUpperCase() });
 
   const onSubmit = async e => {
     e.preventDefault();
-    console.log(skillName);
-    //
   };
 
-  // get filtered profiles
   let filtered_profiles = [];
-  profiles.map(profile => {
-    if (profile.skills.includes(skillName)) {
-      filtered_profiles.push(profile);
-    }
-  });
+
+  skillActivated
+    ? // filter profiles by skills
+      // profiles.map(profile => {
+      //   if (profile.skills.includes(skillName)) {
+      //     filtered_profiles.push(profile);
+      //   }
+      // })
+      (filtered_profiles = profiles.filter(profile => profile.skills.includes(skillName)))
+    : // filter profiles by location
+      (filtered_profiles = profiles.filter(profile => profile.skills.includes(locationName)));
+  // profiles.map(profile => {
+  //   if (profile.location === locationName) {
+  //     filtered_profiles.push(profile);
+  //   }
+  // });
+
+  const skillOnClick = () => {
+    console.log('clicked...');
+    setActivated({ skillActivated: true, locationActivated: false });
+  };
+
+  const locationOnClick = () => {
+    console.log('clicked...');
+    setActivated({ skillActivated: false, locationActivated: true });
+  };
+
   return (
     <Fragment>
       <h4 className='large text-primary'>Find Profiles by Inputting Skill(s) or Location</h4>
+      <h2>Filter By :</h2>
+      <input type='submit' className='btn btn-primary' value='Skill(s)' onClick={skillOnClick} />
+      <input type='submit' className='btn btn-primary' value='Location' onClick={locationOnClick} />
+
       <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Skill(s)'
-            name='skillName'
-            value={skillName}
+            placeholder={skillActivated ? 'skill(s)' : 'location'}
+            name={skillActivated ? 'skillName' : 'locationName'}
+            value={skillActivated ? skillName : locationName}
             onChange={e => onChange(e)}
           />
         </div>
-        <small className='form-text'>
-          (FOR SKILLS) Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
-        </small>
+        {skillActivated && (
+          <small className='form-text'>
+            (FOR SKILLS) Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
+          </small>
+        )}
+
         <input type='submit' className='btn btn-primary' value='Find' />
       </form>
       <br />
