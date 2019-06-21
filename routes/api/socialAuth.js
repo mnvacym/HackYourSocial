@@ -12,11 +12,11 @@ router.get(
 // Callback route to redirect to
 router.get(
   '/google/redirect',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/login', session: false }),
   (req, res) => {
-    if (!req.token) res.json({ msg: 'No user in request' });
-    console.log(req.token);
-    res.json(req.token);
+    //if (!req.token) res.json({ msg: 'No user in request' });
+    const token = req.user;
+    res.json({ token });
   },
 );
 

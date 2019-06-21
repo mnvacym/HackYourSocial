@@ -21,55 +21,62 @@ passport.use(
       callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
     },
     async (accessToken, refreshToken, profile, done) => {
-      const email = profile.emails[0].value;
-      const googleId = profile.id;
-
+      const {
+        id: googleId,
+        displayName: name,
+        emails: [{ value: email }],
+        photos: [{ value: avatar }],
+      } = profile;
+      //const email = profile.emails[0].value;
+      //const googleId = profile.id;
+      console.log(profile);
+      console.log(name, email, avatar, googleId);
       try {
         // See if user exists
         let user = await User.findOne({ email });
 
-        if (user && user.social.google === profile.id) {
-          console.log(user);
-          return done(null, user); // Passing the current user
+        //if user does not exist create and save user
+        if (!user) {
+          const password = generateRandomPass(name); // Password is required
+
+          user = new User({
+            name,
+            email,
+            avatar,
+            password,
+            social: {
+              google: googleId,
+            },
+          });
+
+          // Encrypt password
+          const salt = await bcrypt.genSalt(10);
+
+          user.password = await bcrypt.hash(user.password, salt);
+          await user.save();
+          console.log('user saved', user);
         }
-
-        const password = generateRandomPass(profile.displayName); // Password is required
-
-        user = new User({
-          name,
-          email,
-          password,
-          social: {
-            google: googleId,
-          },
-        });
-
-        // Encrypt password
-        const salt = await bcrypt.genSalt(10);
-
-        user.password = await bcrypt.hash(user.password, salt);
-        console.log(user);
-        await user.save();
 
         // Return jsonwebtoken
         const payload = {
           user: {
             id: user.id,
-            googleId: user.social.google,
           },
         };
+
         jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
           if (err) throw err;
-          console.log(token);
+          console.log('token:', token);
           done(null, token);
         });
       } catch (err) {
         console.log(err.message);
-        res.status(500).send('Server error');
+        done(err, null);
       }
     },
   ),
 );
+
 /*
 // Facebook Strategy
 passport.use(
@@ -107,7 +114,7 @@ passport.use(
       });
     }
   )
-);*/
+);
 
 // Serialization on cookie
 passport.serializeUser((user, done) => {
@@ -118,4 +125,4 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   // @Todo - Get user from db using by id
   done(null, user); // This user is going to be passed
-});
+});*/
