@@ -73,8 +73,8 @@ passport.use(
         console.log(err.message);
         done(err, null);
       }
-    },
-  ),
+    }
+  )
 );
 
 /*

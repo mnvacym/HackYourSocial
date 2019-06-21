@@ -7,7 +7,7 @@ router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-  }),
+  })
 );
 // Callback route to redirect to
 router.get(
@@ -17,7 +17,7 @@ router.get(
     //if (!req.token) res.json({ msg: 'No user in request' });
     const token = req.user;
     res.json({ token });
-  },
+  }
 );
 
 // Github
@@ -30,7 +30,7 @@ router.get(
     res.send('This is callback route for github auth');
     res.send(req.user); // @Todo - Redirect this user to profile endpoint
     res.json(req.user);
-  },
+  }
 );
 
 // Facebook
@@ -43,7 +43,7 @@ router.get(
     res.send('This is callback route for facebook auth');
     res.send(req.user); // @Todo - Redirect this user to profile endpoint
     res.json(req.user);
-  },
+  }
 );
 
 module.exports = router;
