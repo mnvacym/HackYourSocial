@@ -10,9 +10,9 @@ const User = require('../models/User');
 passport.use(
   new GoogleStrategy(
     {
-      clientId: config.get('google.clientId'),
+      clientID: config.get('google.clientId'),
       clientSecret: config.get('google.secret'),
-      callback: '/auth/social/google/redirect',
+      callbackURL: 'api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) => {
       // @Todo - Check if user exists, if so let log in user, if not save on db
@@ -21,10 +21,10 @@ passport.use(
         console.log(user);
         return done(err, user);
       });
-    }
-  )
+    },
+  ),
 );
-
+/*
 // Facebook Strategy
 passport.use(
   new FacebookStrategy(
@@ -73,3 +73,4 @@ passport.deserializeUser((id, done) => {
   // @Todo - Get user from db using by id
   done(null, user); // This user is going to be passed
 });
+*/
