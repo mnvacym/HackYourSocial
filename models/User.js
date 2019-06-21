@@ -21,22 +21,13 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-<<<<<<< HEAD
-  socialLogin: {
-    googleId: {
-      type: String,
-    },
-    githubId: {
-      type: String,
-    },
-    facebookId: {
-      type: String,
-    },
-=======
   social: {
     google: { type: String },
     github: { type: String },
     facebook: { type: String },
+<<<<<<< HEAD
+>>>>>>> baa65c1bed3f5ce301cecd0629cc4b6fd93fb0ca
+=======
 >>>>>>> baa65c1bed3f5ce301cecd0629cc4b6fd93fb0ca
   },
 });
