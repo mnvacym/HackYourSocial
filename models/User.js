@@ -25,10 +25,6 @@ const UserSchema = new mongoose.Schema({
     google: { type: String },
     github: { type: String },
     facebook: { type: String },
-<<<<<<< HEAD
->>>>>>> baa65c1bed3f5ce301cecd0629cc4b6fd93fb0ca
-=======
->>>>>>> baa65c1bed3f5ce301cecd0629cc4b6fd93fb0ca
   },
 });
 

@@ -6,6 +6,10 @@ const config = require('config');
 
 const User = require('../models/User');
 
+const generateRandomPass = (name) => {
+  return `${name}123`
+}
+
 // Google Strategy
 passport.use(
   new GoogleStrategy(
@@ -15,26 +19,52 @@ passport.use(
       callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) => {
-      // @Todo - Check if user exists, if so let log in user, if not save on db
 
-      console.log(profile.emails[0].value);
       const email = profile.emails[0].value;
+      const googleId = profile.id
 
-      // all below operation were handled in register, login, user routes before
-      // we can refactor the codes make below operation a function and reuse it
-      // we can write all code again here
+      try {
+        // See if user exists
+        let user = await User.findOne({ email });
+  
+        if (user && user.social.google === profile.id) {
+          return done(null, user) // Passing the current user
+        }
 
-      // find user by email
-
-      //if it already exist the perform login > generate  a jwt token and send it
-
-      // if user does not exist create a user and then send jwt token
-
-      /*       User.findOne({ googleId: profile.id }, (err, user) => {
-        console.log(user);
-        return done(err, user);
-      }); */
-      done(null, profile);
+        const password = generateRandomPass(profile.displayName) // Password is required
+  
+        user = new User({
+          name,
+          email,
+          password,
+          social: {
+            google: googleId
+          },
+        });
+  
+        // Encrypt password
+        const salt = await bcrypt.genSalt(10);
+  
+        user.password = await bcrypt.hash(user.password, salt);
+  
+        await user.save();
+  
+        // Return jsonwebtoken
+        const payload = {
+          user: {
+            id: user.id,
+            googleId: user.social.google
+          },
+        };
+        jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+          if (err) throw err;
+          done(null, token);
+        });
+      } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server error');
+      }
+      
     },
   ),
 );
