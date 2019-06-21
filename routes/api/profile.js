@@ -72,12 +72,15 @@ router.post(
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
+    if (location) profileFields.location = location.toUpperCase();
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
-      profileFields.skills = skills.split(',').map(skill => skill.trim());
+      profileFields.skills = skills
+        .toUpperCase()
+        .split(',')
+        .map(skill => skill.trim());
     }
 
     // Build social object
@@ -113,56 +116,6 @@ router.post(
     }
   }
 );
-
-// Filtering Feature =============================
-// @route   GET api/profile/find_location/:location_name
-// @desc    Get profiles that have the input location
-// @access  Public
-
-router.get('/find_location/:location_name', async (req, res) => {
-  try {
-    const profiles = await Profile.find({
-      location: req.params.location_name.toString(),
-    });
-
-    if (!profiles) return res.status(400).json({ msg: 'Profile not found!' });
-
-    return res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found!' });
-    }
-    res.status(500).send('Server Error!');
-  }
-});
-
-// @route   GET api/profile/find_skill/:skill_name
-// @desc    Get profiles that have the input skill
-// @access  Public
-
-router.get('/find_skill/:skill_name', async (req, res) => {
-  try {
-    // let skillsArr = [];
-    const profiles = await Profile.where({
-      skills: req.params.skill_name,
-    });
-    console.log(profiles);
-    // profiles.where(skills: [req.params.skill_name.toString()]);
-
-    if (!profiles) return res.status(400).json({ msg: 'Profile not found!' });
-
-    return res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found!' });
-    }
-    res.status(500).send('Server Error!');
-  }
-});
-
-//================================================
 
 // @route   GET api/profile
 // @desc    Get all profiles
