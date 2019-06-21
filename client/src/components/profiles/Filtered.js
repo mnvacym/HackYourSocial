@@ -25,7 +25,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
   // identify which button is clicked to apply the filtering as per it.
   const [activated, setActivated] = useState(false);
-  const { skillActivated, locationActivated } = activated;
+  const { skillActivated } = activated;
 
   // === VARIABLES ===
   let settingState,
