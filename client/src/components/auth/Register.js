@@ -5,7 +5,6 @@ import { setAlert } from '../../actions/alert';
 import { register, socialRegister } from '../../actions/auth';
 import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
-import { PostData } from '../../utils/PostData';
 
 const Register = ({ setAlert, register, isAuthenticated, socialProfile }) => {
   const [formData, setFormData] = useState({
@@ -14,24 +13,20 @@ const Register = ({ setAlert, register, isAuthenticated, socialProfile }) => {
     password: '',
     password2: '',
     redirectToReferrer: false,
+    userData: '',
   });
 
   const signup = (res, type) => {
-    PostData('api/auth/social/google', formData).then(result => {
-      let responseJson = result;
-      if (responseJson.userData) {
-        sessionStorage.setItem('userData', JSON.stringify(responseJson));
-        setFormData({ redirectToReferrer: true });
-      }
-    });
+    socialRegister(userData);
   };
 
   const responseGoogle = response => {
     console.log(response);
+    console.log(socialProfile);
     signup(response, 'google');
   };
 
-  const { name, email, password, password2, redirectToReferrer } = formData;
+  const { name, email, password, password2, redirectToReferrer, userData } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 

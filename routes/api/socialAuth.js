@@ -7,7 +7,7 @@ router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-  }),
+  })
 );
 // Callback route to redirect to
 router.get(
@@ -16,7 +16,7 @@ router.get(
   (req, res) => {
     console.log('redirect page');
     res.json(req.user);
-  },
+  }
 );
 
 // Github
@@ -29,7 +29,7 @@ router.get(
     res.send('This is callback route for github auth');
     res.send(req.user); // @Todo - Redirect this user to profile endpoint
     res.json(req.user);
-  },
+  }
 );
 
 // Facebook
@@ -42,7 +42,7 @@ router.get(
     res.send('This is callback route for facebook auth');
     res.send(req.user); // @Todo - Redirect this user to profile endpoint
     res.json(req.user);
-  },
+  }
 );
 
 module.exports = router;
