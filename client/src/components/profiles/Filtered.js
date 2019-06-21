@@ -10,11 +10,12 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
     getProfiles();
   }, [getProfiles]);
 
-  // skill state
+  // === useState ===
+  // skill
   const [skill, setSkill] = useState('');
   const { skillName } = skill;
 
-  // location state
+  // location
   const [location, setLocation] = useState('');
   const { locationName } = location;
 
@@ -24,30 +25,30 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
   // identify which button is clicked to apply the filtering as per it.
   const [activated, setActivated] = useState(false);
-  const { skillActivated, locationActivated } = activated;
+  const { skillActivated } = activated;
 
+  // === VARIABLES ===
+  let settingState,
+    filtered_profiles = [];
+
+  // === METHODS ===
   // dynamic select a fuction to set the state as per the state name clicked.
-  let settingState;
-  if (skillActivated) {
-    settingState = setSkill;
-  }
-  if (locationActivated) {
-    settingState = setLocation;
-  }
+  skillActivated ? (settingState = setSkill) : (settingState = setLocation);
 
   // onChange
   const onChange = e => settingState({ [e.target.name]: e.target.value.toUpperCase() });
 
-  // click find button
+  // click filter button
   const onSubmit = async e => {
     e.preventDefault();
+    // save the input value before clearing the field
     skillActivated ? setValue({ inputValue: skillName }) : setValue({ inputValue: locationName });
+    // clear the input field
     setSkill({ skillName: '' });
     setLocation({ locationName: '' });
   };
 
   // filter profiles by:
-  let filtered_profiles = [];
   skillActivated
     ? // skills
       profiles.map(profile => {
@@ -76,10 +77,17 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
   return (
     <Fragment>
-      <h4 className='large text-primary'>Find Profiles by Inputting Skill(s) or Location</h4>
-      <h2>Filter By :</h2>
-      <input type='submit' className='btn btn-primary' value='Skill(s)' onClick={skillOnClick} />
-      <input type='submit' className='btn btn-primary' value='Location' onClick={locationOnClick} />
+      <h4 className='large text-primary'>Filter Profiles by Skill or by Location</h4>
+      <div>
+        <h2>Filter By</h2>
+        <input type='submit' className='btn btn-primary' value='Skill' onClick={skillOnClick} />
+        <input
+          type='submit'
+          className='btn btn-primary'
+          value='Location'
+          onClick={locationOnClick}
+        />
+      </div>
 
       <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
@@ -91,19 +99,19 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
             onChange={e => onChange(e)}
           />
         </div>
-        {skillActivated && (
+        {skillActivated && ( // later improvement
           <small className='form-text'>
             (FOR SKILLS) Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
           </small>
         )}
 
-        <input type='submit' className='btn btn-primary' value='Find' />
+        <input type='submit' className='btn btn-primary' value='Filter' />
       </form>
+      {/* <br /> */}
+      {/* <hr />
+      <hr /> */}
       <br />
-      <hr />
-      <hr />
-      <br />
-      <h1>Results</h1>
+      <h1>Filtering Results</h1>
       {loading ? (
         <Spinner />
       ) : (
