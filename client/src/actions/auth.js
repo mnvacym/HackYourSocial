@@ -67,12 +67,16 @@ export const register = ({ name, email, password }) => async dispatch => {
 // Register User by Social Account
 export const socialRegister = token => dispatch => {
   try {
-    console.log('aaa');
-    dispatch({
-      type: SOCIAL_REGISTER_SUCCESS,
-      payload: token,
-    });
+    console.log(token);
+    if (token) {
+      dispatch({
+        type: SOCIAL_REGISTER_SUCCESS,
+        payload: token,
+      });
+      dispatch(loadUser());
+    }
   } catch (err) {
+    console.log('zzz');
     const errors = err.response.data.errors;
 
     if (errors) {
