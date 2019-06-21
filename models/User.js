@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  social: {
+    google: { type: String },
+    github: { type: String },
+    facebook: { type: String },
+  },
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

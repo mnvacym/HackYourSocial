@@ -13,20 +13,18 @@ const Register = ({ setAlert, register, isAuthenticated, socialProfile }) => {
     password: '',
     password2: '',
     redirectToReferrer: false,
-    userData: '',
   });
 
   const signup = (res, type) => {
-    socialRegister(userData);
+    socialRegister(res);
   };
 
   const responseGoogle = response => {
     console.log(response);
-    console.log(socialProfile);
-    signup(response, 'google');
+    signup(response.profileObj, 'google');
   };
 
-  const { name, email, password, password2, redirectToReferrer, userData } = formData;
+  const { name, email, password, password2, redirectToReferrer } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 

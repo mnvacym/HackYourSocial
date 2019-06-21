@@ -34,9 +34,9 @@ export default function(state = initialState, action) {
       localStorage.setItem('token', payload.token);
       return {
         ...state,
+        ...payload,
         isAuthenticated: true,
         loading: false,
-        socialProfile: payload,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
