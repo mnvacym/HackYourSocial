@@ -6,18 +6,17 @@ const router = express.Router();
 router.get(
   '/google',
   passport.authenticate('google', {
-    scope: ['profile'],
-  })
+    scope: ['profile', 'email'],
+  }),
 );
 // Callback route to redirect to
 router.get(
   '/google/redirect',
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+  passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    res.send('This is callback route for google auth');
-    res.send(req.user); // @Todo - Redirect this user to profile endpoint
+    console.log('redirect page');
     res.json(req.user);
-  }
+  },
 );
 
 // Github
@@ -30,7 +29,7 @@ router.get(
     res.send('This is callback route for github auth');
     res.send(req.user); // @Todo - Redirect this user to profile endpoint
     res.json(req.user);
-  }
+  },
 );
 
 // Facebook
@@ -43,7 +42,7 @@ router.get(
     res.send('This is callback route for facebook auth');
     res.send(req.user); // @Todo - Redirect this user to profile endpoint
     res.json(req.user);
-  }
+  },
 );
 
 module.exports = router;
