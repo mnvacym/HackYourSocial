@@ -17,14 +17,15 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   const { locationName } = location;
 
   // identify which button is clicked to apply the filtering as per it.
-  const [activated, setActivated] = useState(true);
+  const [activated, setActivated] = useState(false);
   const { skillActivated, locationActivated } = activated;
 
   // dynamic select a fuction to set the state as per the state name clicked.
   let settingState;
   if (skillActivated) {
     settingState = setSkill;
-  } else {
+  }
+  if (locationActivated) {
     settingState = setLocation;
   }
 
@@ -35,40 +36,22 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   };
 
   let filtered_profiles = [];
-<<<<<<< HEAD
 
   skillActivated
     ? // filter profiles by skills
-      // profiles.map(profile => {
-      //   if (profile.skills.includes(skillName)) {
-      //     filtered_profiles.push(profile);
-      //   }
-      // })
-      (filtered_profiles = profiles.filter(profile => profile.skills.includes(skillName)))
-    : // filter profiles by location
-      (filtered_profiles = profiles.filter(profile => profile.skills.includes(locationName)));
-  // profiles.map(profile => {
-  //   if (profile.location === locationName) {
-  //     filtered_profiles.push(profile);
-  //   }
-  // });
-=======
-  {
-    skillActivated
-      ? // filter profiles by skills
-        profiles.map(profile => {
-          if (profile.skills.includes(skillName)) {
-            filtered_profiles.push(profile);
-          }
-        })
-      : // filter profiles by location
-        profiles.map(profile => {
-          if (profile.location === locationName) {
-            filtered_profiles.push(profile);
-          }
-        });
-  }
->>>>>>> d2ecef519d292c558639f3248490ed4331280f29
+      profiles.map(profile => {
+        if (profile.skills.includes(skillName)) {
+          filtered_profiles.push(profile);
+        }
+      })
+    : // (filtered_profiles = profiles.filter(profile => profile.skills.includes(skillName)))
+      // filter profiles by location
+      // (filtered_profiles = profiles.filter(profile => profile.skills.includes(locationName)));
+      profiles.map(profile => {
+        if (profile.location === locationName) {
+          filtered_profiles.push(profile);
+        }
+      });
 
   const skillOnClick = () => {
     console.log('clicked...');
