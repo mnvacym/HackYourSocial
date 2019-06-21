@@ -30,8 +30,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   let settingState;
   if (skillActivated) {
     settingState = setSkill;
-  }
-  if (locationActivated) {
+  } else {
     settingState = setLocation;
   }
 
