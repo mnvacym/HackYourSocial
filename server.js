@@ -13,14 +13,7 @@ connectDB();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 100,
-    keys: [config.get('session.cookieKey')],
-  })
-);
 app.use(passport.initialize());
-app.use(passport.session());
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));

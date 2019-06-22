@@ -106,14 +106,3 @@ passport.use(
       checkAndCreateUser(accessToken, refreshToken, profile, done),
   ),
 );
-
-/* Serialization on cookie
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-// Deserialization from cookie
-passport.deserializeUser((user, done) => {
-  // @Todo - Get user from db using by id
-  done(null, user); // This user is going to be passed
-});*/
