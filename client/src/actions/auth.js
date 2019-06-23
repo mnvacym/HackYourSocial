@@ -76,7 +76,6 @@ export const socialRegister = token => dispatch => {
       dispatch(loadUser());
     }
   } catch (err) {
-    console.log('zzz');
     const errors = err.response.data.errors;
 
     if (errors) {

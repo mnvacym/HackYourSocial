@@ -75,8 +75,8 @@ passport.use(
       callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done),
-  ),
+      checkAndCreateUser(accessToken, refreshToken, profile, done)
+  )
 );
 
 // Facebook Strategy
@@ -89,8 +89,8 @@ passport.use(
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done),
-  ),
+      checkAndCreateUser(accessToken, refreshToken, profile, done)
+  )
 );
 
 // Github Strategy
@@ -103,6 +103,6 @@ passport.use(
       scope: 'user:email',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done),
-  ),
+      checkAndCreateUser(accessToken, refreshToken, profile, done)
+  )
 );
