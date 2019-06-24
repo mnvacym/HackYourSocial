@@ -9,10 +9,11 @@ const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 // reset password .. here I will replace the keys with var. from default.json file
 const crypto = require('crypto');
-const mailgun = require('mailgun-js')({
-  apiKey: 'b079cf614dc210d3523e5d3dd035c0db-29b7488f-fc4ba7b3',
-  domain: 'sandboxd956b1d1647e44058060757347bf41c7.mailgun.org',
-});
+
+
+const Sgmail = require('@sendgrid/mail');
+
+Sgmail.setApiKey('put the key here but do not forget to delete it when you want to push');
 
 // @route   GET api/auth
 // @desc    Gets the authorized user
@@ -102,33 +103,34 @@ router.post('/saveresethash', async (req, res) => {
         );
       }
 
-      // Put together the email
-      const emailData = {
-        from: 'HackYourSocial <postmaster@sandboxcc80cfa391224d5d83e5aba2d09b7590.mailgun.org>',
-        to: foundUser.email,
-        subject: 'Reset Your Password',
-        text: `A password reset has been requested for the HackYourSocial networking platform connected to this email address. If you made this request, please click the following link: https://hackyoursocial.com/account/change-password/${
+      // // //
+
+      const message = {
+        to: foundUser.email, //email variable
+        from: 'yaseir.alkhwalda@gmail.com',
+        message: `${
           foundUser.passwordReset
         } ... if you didn't make this request, feel free to ignore it!`,
-        html: `<p>A password reset has been requested for the HackYourSocial networking platform connected to this email address. If you made this request, please click the following link: <a href="https://hackyoursocial.com/account/change-password/${
+        html: `${
           foundUser.passwordReset
         }&quot; target="_blank">https://hackyoursocial.com/account/change-password/${
           foundUser.passwordReset
         }</a>.</p><p>If you didn't make this request, feel free to ignore it!</p>`,
+        subject: 'Reset Your Password',
       };
 
-      // Send it
-      mailgun.messages().send(emailData, (error, body) => {
-        if (error || !body) {
+      Sgmail.send(message, (error, result) => {
+        if (error) {
           result = res.send(
             JSON.stringify({
-              error: 'Something went wrong while attempting to send the email. Please try again.',
+              error: 'Something went wrong while attempting to send the email.',
             })
           );
         } else {
           result = res.send(JSON.stringify({ success: true }));
         }
       });
+
     });
   } catch (err) {
     // if the user doesn't exist, error out
