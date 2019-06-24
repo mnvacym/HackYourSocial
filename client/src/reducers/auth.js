@@ -14,6 +14,9 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  isPasswordReset: false, // new code
+  isPasswordChanged: false, // new code
+
 };
 
 export default function(state = initialState, action) {
@@ -47,6 +50,27 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false,
       };
+    case 'AUTHENTICATION_PASSWORD_RESET_CLEAR': // new code
+    case 'AUTHENTICATION_PASSWORD_RESET_HASH_FAILURE': {
+      const newState = Object.assign({}, state);
+      newState.isPasswordReset = false;
+      return newState;
+    }
+    case 'AUTHENTICATION_PASSWORD_RESET_HASH_CREATED': {
+      const newState = Object.assign({}, state);
+      newState.isPasswordReset = true;
+      return newState;
+    }
+    case 'AUTHENTICATION_PASSWORD_SAVE_CLEAR': {
+      const newState = Object.assign({}, state);
+      newState.isPasswordChanged = false;
+      return newState;
+    }
+    case 'AUTHENTICATION_PASSWORD_SAVE_SUCCESS': {
+      const newState = Object.assign({}, state);
+      newState.isPasswordChanged = true;
+      return newState;
+    }
     default:
       return state;
   }
