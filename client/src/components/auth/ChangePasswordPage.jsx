@@ -80,7 +80,7 @@ export default class ChangePasswordPage extends React.Component {
               <Label for="password">Password</Label>
               <AvInput
                 id="password"
-                minLength="8"
+                minLength="6"
                 name="password"
                 onChange={this.handleInputChange}
                 onKeyPress={this.handleKeyPress}
@@ -89,14 +89,14 @@ export default class ChangePasswordPage extends React.Component {
                 type="password"
                 value={this.state.password}
               />
-              <AvFeedback>Passwords must be at least eight characters in length</AvFeedback>
+              <AvFeedback>Passwords must be at least six characters in length</AvFeedback>
             </AvGroup>
 
             <AvGroup>
               <Label for="password">Confirm Password</Label>
               <AvInput
                 id="passwordCheck"
-                minLength="8"
+                minLength="6"
                 name="passwordCheck"
                 onChange={this.handleInputChange}
                 onKeyPress={this.handleKeyPress}

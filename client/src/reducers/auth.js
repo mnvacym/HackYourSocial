@@ -7,6 +7,12 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   ACCOUNT_DELETED,
+  PASSWORD_RESET_CLEAR,
+  PASSWORD_RESET_HASH_CREATED,
+  PASSWORD_RESET_HASH_FAILURE,
+  PASSWORD_SAVE_CLEAR,
+  PASSWORD_SAVE_SUCCESS,
+  PASSWORD_SAVE_FAILURE,
 } from '../actions/types';
 
 const initialState = {
@@ -49,27 +55,28 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false,
       };
-    case 'AUTHENTICATION_PASSWORD_RESET_CLEAR': // new code
-    case 'AUTHENTICATION_PASSWORD_RESET_HASH_FAILURE': {
-      const newState = Object.assign({}, state);
-      newState.isPasswordReset = false;
-      return newState;
-    }
-    case 'AUTHENTICATION_PASSWORD_RESET_HASH_CREATED': {
-      const newState = Object.assign({}, state);
-      newState.isPasswordReset = true;
-      return newState;
-    }
-    case 'AUTHENTICATION_PASSWORD_SAVE_CLEAR': {
-      const newState = Object.assign({}, state);
-      newState.isPasswordChanged = false;
-      return newState;
-    }
-    case 'AUTHENTICATION_PASSWORD_SAVE_SUCCESS': {
-      const newState = Object.assign({}, state);
-      newState.isPasswordChanged = true;
-      return newState;
-    }
+    case PASSWORD_RESET_CLEAR: // new code
+    case PASSWORD_RESET_HASH_FAILURE:
+      return {
+        ...state,
+        isPasswordReset: false,
+      };
+    case PASSWORD_RESET_HASH_CREATED:
+      return {
+        ...state,
+        isPasswordReset: true,
+      };
+    case PASSWORD_SAVE_CLEAR:
+    case PASSWORD_SAVE_FAILURE:
+      return {
+        ...state,
+        isPasswordChanged: false,
+      };
+    case PASSWORD_SAVE_SUCCESS:
+      return {
+        ...state,
+        isPasswordChanged: true,
+      };
     default:
       return state;
   }

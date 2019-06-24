@@ -14,7 +14,7 @@ import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
 import PrivateRoute from '../routing/PrivateRoute';
-import ResetPasswordPageContainer from '../auth/ResetPasswordPageContainer';
+import ResetPasswordPage from '../auth/ResetPasswordPage';
 import ChangePasswordPageContainer from '../auth/ChangePasswordPageContainer';
 
 const Routes = () => {
@@ -24,7 +24,7 @@ const Routes = () => {
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/auth/reset-password" component={ResetPasswordPageContainer} />
+        <Route exact path="/auth/reset-password" component={ResetPasswordPage} />
         <Route exact path="/auth/change-password/:hash" component={ChangePasswordPageContainer} />
 
         <Route exact path="/profiles" component={Profiles} />
