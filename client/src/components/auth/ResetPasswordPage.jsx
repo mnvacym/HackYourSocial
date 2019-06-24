@@ -60,11 +60,13 @@ export default class ResetPasswordPage extends React.Component {
         <div className="row justify-content-center">
           <div className="col-10 col-sm-7 col-md-5 col-lg-4">
             <p>
-              An email has been sent to the address you provided containing a link to reset
-              your password. Please click that link to proceed with setting a new password.
+              An email has been sent to the address you provided containing a link to reset your
+              password. Please click that link to proceed with setting a new password.
             </p>
             <p>
-              <a href="/account/reset-password" onClick={this.clearPasswordReset}>Re-send Email</a>
+              <a href="/account/reset-password" onClick={this.clearPasswordReset}>
+                Re-send Email
+              </a>
             </p>
           </div>
         </div>
@@ -75,8 +77,8 @@ export default class ResetPasswordPage extends React.Component {
       <div className="row justify-content-center">
         <div className="col-10 col-sm-7 col-md-5 col-lg-4">
           <p>
-            If you‘d like to reset your password, please enter your email here
-            and a link to do so will be sent to the address you enter.
+            If you‘d like to reset your password, please enter your email here and a link to do so
+            will be sent to the address you enter.
           </p>
           <AvForm onValidSubmit={this.handleValidSubmit}>
             <AvGroup>
@@ -86,7 +88,7 @@ export default class ResetPasswordPage extends React.Component {
                 name="email"
                 onChange={this.handleEmailChange}
                 onKeyPress={this.handleKeyPress}
-                placeholder="noreply@musiclist.com"
+                placeholder="Please enter your email here."
                 required
                 type="email"
                 value={this.state.email}

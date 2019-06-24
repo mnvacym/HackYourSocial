@@ -48,9 +48,8 @@ export default class ChangePasswordPage extends React.Component {
         <div className="row justify-content-center">
           <div className="col-10 col-sm-7 col-md-5 col-lg-4">
             <p>
-              Your changes have been saved, and you can
-              now <Link to="/auth/login">log in</Link> with
-              the new password.
+              Your changes have been saved, and you can now <Link to="/auth/login">log in</Link>{' '}
+              with the new password.
             </p>
           </div>
         </div>
@@ -62,9 +61,7 @@ export default class ChangePasswordPage extends React.Component {
       return (
         <div className="row justify-content-center">
           <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-            <p>
-              Your new password has been saved.
-            </p>
+            <p>Your new password has been saved.</p>
           </div>
         </div>
       );
@@ -74,12 +71,11 @@ export default class ChangePasswordPage extends React.Component {
       <div className="row justify-content-center">
         <div className="col-10 col-sm-7 col-md-5 col-lg-4">
           <p>
-            Please enter and confirm a new password below to change the
-            password associated with this email address.
+            Please enter and confirm a new password below to change the password associated with
+            this email address.
           </p>
 
           <AvForm onValidSubmit={this.handleValidSubmit}>
-
             <AvGroup>
               <Label for="password">Password</Label>
               <AvInput
@@ -114,7 +110,6 @@ export default class ChangePasswordPage extends React.Component {
             </AvGroup>
 
             <Button color="primary">Change Password</Button>
-
           </AvForm>
         </div>
       </div>

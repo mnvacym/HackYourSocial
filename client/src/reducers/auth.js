@@ -16,7 +16,6 @@ const initialState = {
   user: null,
   isPasswordReset: false, // new code
   isPasswordChanged: false, // new code
-
 };
 
 export default function(state = initialState, action) {

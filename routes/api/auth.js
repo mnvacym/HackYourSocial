@@ -14,7 +14,6 @@ const mailgun = require('mailgun-js')({
   domain: 'sandboxd956b1d1647e44058060757347bf41c7.mailgun.org',
 });
 
-
 // @route   GET api/auth
 // @desc    Gets the authorized user
 // @access  Public
@@ -73,8 +72,10 @@ router.post(
     }
   }
 );
-// password reset
-// POST to saveresethash
+
+// @route   POST api/auth/saveresethash
+// @desc    Reset password
+// @access  public
 router.post('/saveresethash', async (req, res) => {
   let result;
   try {
@@ -106,10 +107,10 @@ router.post('/saveresethash', async (req, res) => {
         from: 'HackYourSocial <postmaster@sandboxcc80cfa391224d5d83e5aba2d09b7590.mailgun.org>',
         to: foundUser.email,
         subject: 'Reset Your Password',
-        text: `A password reset has been requested for the MusicList account connected to this email address. If you made this request, please click the following link: https://hackyoursocial.com/account/change-password/${
+        text: `A password reset has been requested for the HackYourSocial networking platform connected to this email address. If you made this request, please click the following link: https://hackyoursocial.com/account/change-password/${
           foundUser.passwordReset
         } ... if you didn't make this request, feel free to ignore it!`,
-        html: `<p>A password reset has been requested for the MusicList account connected to this email address. If you made this request, please click the following link: <a href="https://hackyoursocial.com/account/change-password/${
+        html: `<p>A password reset has been requested for the HackYourSocial networking platform connected to this email address. If you made this request, please click the following link: <a href="https://hackyoursocial.com/account/change-password/${
           foundUser.passwordReset
         }&quot; target="_blank">https://hackyoursocial.com/account/change-password/${
           foundUser.passwordReset
@@ -140,8 +141,9 @@ router.post('/saveresethash', async (req, res) => {
   return result;
 });
 
-// save password
-// POST to savepassword
+// @route   POST api/auth/savepassword
+// @desc    Save password
+// @access  public
 router.post('/savepassword', async (req, res) => {
   let result;
   try {
