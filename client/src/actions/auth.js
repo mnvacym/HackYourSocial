@@ -109,7 +109,7 @@ export const logout = () => dispatch => {
 
 // here the new code
 export const passwordResetHashCreated = () => ({
-  type: 'PASSWORD_RESET_HASH_CREATED',
+  type: PASSWORD_RESET_HASH_CREATED,
 });
 // export const passwordResetHashFailure = error => ({
 //   type: 'PASSWORD_RESET_HASH_FAILURE',
@@ -129,11 +129,8 @@ export const createHash = email => async dispatch => {
   try {
     const res = await axios.post('/api/auth/saveresethash', body, config);
 
-       if (res.status === 200) {
-         return dispatch(passwordResetHashCreated(res.json));
-    } 
-
-    // res.json();
+  
+   return dispatch(passwordResetHashCreated())
   } catch (err) {
     console.error(err);
     const errors = err.response.data.errors;

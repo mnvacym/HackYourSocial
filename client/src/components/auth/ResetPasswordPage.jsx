@@ -30,11 +30,11 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
   };
 
   // catch enter clicks
-  const handleKeyPress = target => {
-    if (target.charCode === 13) {
-      handleValidSubmit();
-    }
-  };
+  // const handleKeyPress = target => {
+  //   if (target.charCode === 13) {
+  //     handleValidSubmit();
+  //   }
+  // };
 
   // Handle submission once all form data is valid
   const handleValidSubmit = () => {
@@ -71,7 +71,7 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
                   id="userEmail"
                   name="email"
                   onChange={e => handleEmailChange(e)}
-                  onKeyPress={() => handleKeyPress()}
+                  // onKeyPress={() => handleKeyPress()}
                   placeholder="Please enter your email here."
                   required
                   type="email"
