@@ -55,7 +55,7 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false,
       };
-    case PASSWORD_RESET_CLEAR: // new code
+    case PASSWORD_RESET_CLEAR:
     case PASSWORD_RESET_HASH_FAILURE:
       return {
         ...state,

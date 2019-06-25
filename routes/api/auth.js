@@ -70,7 +70,7 @@ router.post(
       console.log(err.message);
       res.status(500).send('Server error');
     }
-  },
+  }
 );
 
 // @route   POST api/auth/saveresethash
@@ -99,11 +99,6 @@ router.post('/saveresethash', async (req, res) => {
     foundUser.passwordReset = hash;
     foundUser.save(err => {
       if (err) {
-        // result = res.send(
-        //   JSON.stringify({
-        //     error: 'Something went wrong while attempting to reset your password. Please Try again',
-        //   })
-        // );
         console.log('save error');
         return res.status(400).json({
           errors: [
@@ -115,11 +110,9 @@ router.post('/saveresethash', async (req, res) => {
         });
       }
 
-      // // //
-
       const message = {
         to: foundUser.email, //email variable
-        from: 'yaseir.alkhwalda@gmail.com',
+        from: 'hyfproject19@gmail.com',
         html: `<h1>Hi ${foundUser.name}</h1>
         <p> Please click the below link to reset your password</p>      
         <a href="http://localhost:3000/auth/change-password/${
@@ -133,11 +126,6 @@ router.post('/saveresethash', async (req, res) => {
 
       Sgmail.send(message, (error, result) => {
         if (error) {
-          // result = res.send(
-          //   JSON.stringify({
-          //     error: 'Something went wrong while attempting to send the email.',
-          //   })
-          // );
           console.log('send error');
           return res.status(400).json({
             errors: [{ msg: 'Something went wrong while attempting to send the email.' }],
@@ -148,12 +136,6 @@ router.post('/saveresethash', async (req, res) => {
       });
     });
   } catch (err) {
-    // if the user doesn't exist, error out
-    // result = res.send(
-    //   JSON.stringify({
-    //     error: 'Something went wrong while attempting to reset your password. Please Try again',
-    //   })
-    // );
     console.log('user does not exist');
     return res.status(400).json({
       errors: [

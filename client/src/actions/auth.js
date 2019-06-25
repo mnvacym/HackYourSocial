@@ -107,15 +107,6 @@ export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
 };
 
-// here the new code
-export const passwordResetHashCreated = () => ({
-  type: 'PASSWORD_RESET_HASH_CREATED',
-});
-// export const passwordResetHashFailure = error => ({
-//   type: 'PASSWORD_RESET_HASH_FAILURE',
-//   error,
-// });
-
 // Send email to API for hashing
 export const createHash = email => async dispatch => {
   const config = {
@@ -127,13 +118,11 @@ export const createHash = email => async dispatch => {
   const body = JSON.stringify({ email });
 
   try {
-    const res = await axios.post('/api/auth/saveresethash', body, config);
+    await axios.post('/api/auth/saveresethash', body, config);
 
-       if (res.status === 200) {
-         return dispatch(passwordResetHashCreated(res.json));
-    } 
-
-    // res.json();
+    dispatch({
+      type: PASSWORD_RESET_HASH_CREATED,
+    });
   } catch (err) {
     console.error(err);
     const errors = err.response.data.errors;
@@ -142,9 +131,6 @@ export const createHash = email => async dispatch => {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
-    // if (errors) {
-    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    // }
     console.log(err);
     dispatch({
       type: PASSWORD_RESET_HASH_FAILURE,
@@ -152,51 +138,11 @@ export const createHash = email => async dispatch => {
   }
 };
 
-// export function createHash(email) {
-//   return async dispatch => {
-//     // contact the API
-//     await fetch(
-//       // where to contact
-//       '/api/auth/saveresethash',
-//       // what to send
-//       {
-//         method: 'POST',
-//         body: JSON.stringify({ email }),
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         credentials: 'same-origin',
-//       }
-//     )
-//       .then(response => {
-//         if (response.status === 200) {
-//           return response.json();
-//         }
-//         return null;
-//       })
-//       .then(json => {
-//         if (json.success) {
-//           return dispatch(passwordResetHashCreated(json));
-//         }
-//         return dispatch(
-//           passwordResetHashFailure(new Error('Something went wrong. Please try again.'))
-//         );
-//       })
-//       .catch(error => dispatch(passwordResetHashFailure(error)));
-//   };
-// }
-
 export const passwordResetClear = () => dispatch => {
   dispatch({
     type: PASSWORD_RESET_CLEAR,
   });
 };
-
-// export const passwordSaveFailure = error => ({
-//   type: 'PASSWORD_SAVE_FAILURE',
-//   error,
-// });
-// export const passwordSaveSuccess = () => ({ type: 'PASSWORD_SAVE_SUCCESS' });
 
 // Save a user's password
 export const savePassword = data => async dispatch => {
@@ -209,11 +155,7 @@ export const savePassword = data => async dispatch => {
   const body = JSON.stringify(data);
 
   try {
-    const res = await axios.post('/api/auth/savepassword', body, config);
-
-    /*     if (res.status === 200) {
-      return res.json();
-    } */
+    await axios.post('/api/auth/savepassword', body, config);
 
     dispatch({ type: PASSWORD_SAVE_SUCCESS });
   } catch (err) {
@@ -228,52 +170,6 @@ export const savePassword = data => async dispatch => {
     });
   }
 };
-// export function savePassword(data) {
-//   return async dispatch => {
-//     // contact the API
-//     await fetch(
-//       // where to contact
-//       '/api/auth/savepassword',
-//       // what to send
-//       {
-//         method: 'POST',
-//         body: JSON.stringify(data),
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         credentials: 'same-origin',
-//       }
-//     )
-//       .then(response => {
-//         if (response.status === 200) {
-//           return response.json();
-//         }
-//         return null;
-//       })
-//       .then(async json => {
-//         if (json && json.success) {
-//           dispatch(passwordSaveSuccess());
-//         } else {
-//           dispatch(
-//             passwordSaveFailure(
-//               new Error(
-//                 json.error.message
-//                   ? 'There was an error saving the password. Please try again'
-//                   : json.error
-//               )
-//             )
-//           );
-//         }
-//       })
-//       .catch(error => {
-//         dispatch(
-//           passwordSaveFailure(
-//             new Error(error.message || 'There was an error saving the password. Please try again.')
-//           )
-//         );
-//       });
-//   };
-// }
 
 export const passwordSaveClear = () => dispatch => {
   dispatch({
