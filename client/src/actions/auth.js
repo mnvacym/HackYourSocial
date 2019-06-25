@@ -129,18 +129,16 @@ export const createHash = email => async dispatch => {
   try {
     const res = await axios.post('/api/auth/saveresethash', body, config);
 
-    if (res.status === 200) {
-      return res.json();
-    }
+    if (res.status === 200) return dispatch({ type: PASSWORD_RESET_HASH_CREATED });
 
-    dispatch({ type: PASSWORD_RESET_HASH_CREATED });
+    // res.json();
   } catch (err) {
-    const errors = err.response.data.errors;
+    // const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    }
-
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    // }
+    console.log(err);
     dispatch({
       type: PASSWORD_RESET_HASH_FAILURE,
     });

@@ -12,7 +12,7 @@ const crypto = require('crypto');
 
 const Sgmail = require('@sendgrid/mail');
 
-Sgmail.setApiKey('put the key here but do not forget to delete it when you want to push');
+Sgmail.setApiKey('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');
 
 // @route   GET api/auth
 // @desc    Gets the authorized user
@@ -119,8 +119,8 @@ router.post('/saveresethash', async (req, res) => {
       const message = {
         to: foundUser.email, //email variable
         from: 'yaseir.alkhwalda@gmail.com',
-        message: `Hi ${foundUser}`,
-        html: `<p>https://hackyoursocial.com/account/change-password/${
+        message: `Hi ${foundUser.name}`,
+        html: `<p>http://localhost:3000/auth/change-password/${
           foundUser.passwordReset
           }</p> if you didn't make this request, feel free to ignore it!`,
         subject: 'Reset Your Password',
