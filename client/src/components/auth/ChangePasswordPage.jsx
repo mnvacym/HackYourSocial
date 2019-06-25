@@ -45,11 +45,11 @@ export default class ChangePasswordPage extends React.Component {
     // If they just changed a password and AREN'T logged in
     if (isPasswordChanged && !isLoggedIn) {
       return (
-        <div className="row justify-content-center">
-          <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+        <div className='row justify-content-center'>
+          <div className='col-10 col-sm-7 col-md-5 col-lg-4'>
             <p>
-              Your changes have been saved, and you can now <Link to="/auth/login">log in</Link>{' '}
-              with the new password.
+              Your changes have been saved, and you can now <Link to='/login'>log in</Link> with the
+              new password.
             </p>
           </div>
         </div>
@@ -59,8 +59,8 @@ export default class ChangePasswordPage extends React.Component {
     // If they just changed a password and ARE logged in
     if (isPasswordChanged && isLoggedIn) {
       return (
-        <div className="row justify-content-center">
-          <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+        <div className='row justify-content-center'>
+          <div className='col-10 col-sm-7 col-md-5 col-lg-4'>
             <p>Your new password has been saved.</p>
           </div>
         </div>
@@ -68,8 +68,8 @@ export default class ChangePasswordPage extends React.Component {
     }
 
     return (
-      <div className="row justify-content-center">
-        <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+      <div className='row justify-content-center'>
+        <div className='col-10 col-sm-7 col-md-5 col-lg-4'>
           <p>
             Please enter and confirm a new password below to change the password associated with
             this email address.
@@ -77,39 +77,39 @@ export default class ChangePasswordPage extends React.Component {
 
           <AvForm onValidSubmit={this.handleValidSubmit}>
             <AvGroup>
-              <Label for="password">Password</Label>
+              <Label for='password'>Password</Label>
               <AvInput
-                id="password"
-                minLength="6"
-                name="password"
+                id='password'
+                minLength='6'
+                name='password'
                 onChange={this.handleInputChange}
                 onKeyPress={this.handleKeyPress}
-                placeholder="password"
+                placeholder='password'
                 required
-                type="password"
+                type='password'
                 value={this.state.password}
               />
               <AvFeedback>Passwords must be at least six characters in length</AvFeedback>
             </AvGroup>
 
             <AvGroup>
-              <Label for="password">Confirm Password</Label>
+              <Label for='password'>Confirm Password</Label>
               <AvInput
-                id="passwordCheck"
-                minLength="6"
-                name="passwordCheck"
+                id='passwordCheck'
+                minLength='6'
+                name='passwordCheck'
                 onChange={this.handleInputChange}
                 onKeyPress={this.handleKeyPress}
-                placeholder="password again"
+                placeholder='password again'
                 required
-                type="password"
+                type='password'
                 validate={{ match: { value: 'password' } }}
                 value={this.state.passwordCheck}
               />
               <AvFeedback>Passwords must match</AvFeedback>
             </AvGroup>
 
-            <Button color="primary">Change Password</Button>
+            <Button color='primary'>Change Password</Button>
           </AvForm>
         </div>
       </div>

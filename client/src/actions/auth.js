@@ -129,12 +129,13 @@ export const createHash = email => async dispatch => {
   try {
     const res = await axios.post('/api/auth/saveresethash', body, config);
 
-    if (res.status === 200) {
+    /*     if (res.status === 200) {
       return res.json();
-    }
+    } */
 
     dispatch({ type: PASSWORD_RESET_HASH_CREATED });
   } catch (err) {
+    console.error(err);
     const errors = err.response.data.errors;
 
     if (errors) {
@@ -206,9 +207,9 @@ export const savePassword = data => async dispatch => {
   try {
     const res = await axios.post('/api/auth/savepassword', body, config);
 
-    if (res.status === 200) {
+    /*     if (res.status === 200) {
       return res.json();
-    }
+    } */
 
     dispatch({ type: PASSWORD_SAVE_SUCCESS });
   } catch (err) {

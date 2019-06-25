@@ -12,7 +12,7 @@ const crypto = require('crypto');
 
 const Sgmail = require('@sendgrid/mail');
 
-Sgmail.setApiKey('put the key here but do not forget to delete it when you want to push');
+Sgmail.setApiKey(config.get('sendgrid'));
 
 // @route   GET api/auth
 // @desc    Gets the authorized user
@@ -70,7 +70,7 @@ router.post(
       console.log(err.message);
       res.status(500).send('Server error');
     }
-  }
+  },
 );
 
 // @route   POST api/auth/saveresethash
@@ -81,7 +81,7 @@ router.post('/saveresethash', async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  // let result;
+  let result;
   try {
     // check and make sure the email exists
     const query = User.findOne({ email: req.body.email });
@@ -90,13 +90,13 @@ router.post('/saveresethash', async (req, res) => {
     // If the user exists, save their password hash
     const timeInMs = Date.now();
     const hashString = `${req.body.email}${timeInMs}`;
-    const secret = 'alongrandomstringshouldgohere';
+    const secret = config.get('sendgridSecret');
     const hash = crypto
       .createHmac('sha256', secret)
       .update(hashString)
       .digest('hex');
-    foundUser.passwordReset = hash;
 
+    foundUser.passwordReset = hash;
     foundUser.save(err => {
       if (err) {
         // result = res.send(
@@ -104,6 +104,7 @@ router.post('/saveresethash', async (req, res) => {
         //     error: 'Something went wrong while attempting to reset your password. Please Try again',
         //   })
         // );
+        console.log('save error');
         return res.status(400).json({
           errors: [
             {
@@ -119,16 +120,16 @@ router.post('/saveresethash', async (req, res) => {
       const message = {
         to: foundUser.email, //email variable
         from: 'yaseir.alkhwalda@gmail.com',
-        message: `${
+        html: `<h1>Hi ${foundUser.name}</h1>
+        <p> Please click the below link to reset your password</p>      
+        <a href="http://localhost:3000/auth/change-password/${
           foundUser.passwordReset
-        } ... if you didn't make this request, feel free to ignore it!`,
-        html: `${
-          foundUser.passwordReset
-        }&quot; target="_blank">https://hackyoursocial.com/account/change-password/${
-          foundUser.passwordReset
-        }</a>.</p><p>If you didn't make this request, feel free to ignore it!</p>`,
+        }" target="_blank"> Take me to the reset page</a>
+        <p>If you didn't make this request, feel free to ignore it!</p>`,
         subject: 'Reset Your Password',
       };
+
+      console.log(message);
 
       Sgmail.send(message, (error, result) => {
         if (error) {
@@ -137,6 +138,7 @@ router.post('/saveresethash', async (req, res) => {
           //     error: 'Something went wrong while attempting to send the email.',
           //   })
           // );
+          console.log('send error');
           return res.status(400).json({
             errors: [{ msg: 'Something went wrong while attempting to send the email.' }],
           });
@@ -152,13 +154,14 @@ router.post('/saveresethash', async (req, res) => {
     //     error: 'Something went wrong while attempting to reset your password. Please Try again',
     //   })
     // );
+    console.log('user does not exist');
     return res.status(400).json({
       errors: [
         { msg: 'Something went wrong while attempting to reset your password. Please Try again!' },
       ],
     });
   }
-  // return result;
+  return result;
 });
 
 // @route   POST api/auth/savepassword
@@ -171,38 +174,24 @@ router.post('/savepassword', async (req, res) => {
   }
   let result;
   try {
+    const { password, hash: passwordReset } = req.body;
+
     // look up user in the DB based on reset hash
-    const query = User.findOne({ passwordReset: req.body.hash });
+    const query = User.findOne({ passwordReset });
     const foundUser = await query.exec();
 
+    console.log(req.body, foundUser);
     // If the user exists save their new password
     if (foundUser) {
-      // user passport's built-in password set method
-      foundUser.setPassword(req.body.password, err => {
-        if (err) {
-          // result = res.send(
-          //   JSON.stringify({ error: 'Password could not be saved. Please try again' })
-          // );
-          return res.status(400).json({
-            errors: [{ msg: 'Password could not be saved. Please try again!' }],
-          });
-        } else {
-          // once the password's set, save the user object
-          foundUser.save(error => {
-            if (error) {
-              // result = res.send(
-              //   JSON.stringify({ error: 'Password could not be saved. Please try again' })
-              // );
-              return res.status(400).json({
-                errors: [{ msg: 'Password could not be saved. Please try again!' }],
-              });
-            } else {
-              // Send a success message
-              result = res.send(JSON.stringify({ success: true }));
-            }
-          });
-        }
-      });
+      const salt = await bcrypt.genSalt(10);
+      const newPassword = await bcrypt.hash(password, salt);
+      foundUser.password = newPassword;
+      foundUser.passwordReset = '';
+
+      // once the password's set, save the user object
+      foundUser.save();
+      console.log('password has changed', newPassword);
+      result = res.send(JSON.stringify({ success: true }));
     } else {
       // result = res.send(JSON.stringify({ error: 'Reset hash not found in database.' }));
       return res.status(400).json({
@@ -210,12 +199,14 @@ router.post('/savepassword', async (req, res) => {
       });
     }
   } catch (err) {
-    result = res.send(JSON.stringify({ error: 'There was an error connecting to the database.' }));
+    console.error(err);
+
+    //result = res.send(JSON.stringify({ error: 'There was an error connecting to the database.' }));
     return res.status(500).json({
       errors: [{ msg: 'There was an error connecting to the database.!' }],
     });
   }
-  // return result;
+  return result;
 });
 
 module.exports = router;
