@@ -10,7 +10,6 @@ const { check, validationResult } = require('express-validator/check');
 // reset password .. here I will replace the keys with var. from default.json file
 const crypto = require('crypto');
 
-
 const Sgmail = require('@sendgrid/mail');
 
 Sgmail.setApiKey('put the key here but do not forget to delete it when you want to push');
@@ -73,10 +72,16 @@ router.post(
     }
   }
 );
-// password reset
-// POST to saveresethash
+
+// @route   POST api/auth/saveresethash
+// @desc    Reset password
+// @access  public
 router.post('/saveresethash', async (req, res) => {
-  let result;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  // let result;
   try {
     // check and make sure the email exists
     const query = User.findOne({ email: req.body.email });
@@ -94,11 +99,19 @@ router.post('/saveresethash', async (req, res) => {
 
     foundUser.save(err => {
       if (err) {
-        result = res.send(
-          JSON.stringify({
-            error: 'Something went wrong while attempting to reset your password. Please Try again',
-          })
-        );
+        // result = res.send(
+        //   JSON.stringify({
+        //     error: 'Something went wrong while attempting to reset your password. Please Try again',
+        //   })
+        // );
+        return res.status(400).json({
+          errors: [
+            {
+              msg:
+                'Something went wrong while attempting to reset your password. Please Try again!',
+            },
+          ],
+        });
       }
 
       // // //
@@ -115,31 +128,43 @@ router.post('/saveresethash', async (req, res) => {
 
       Sgmail.send(message, (error, result) => {
         if (error) {
-          result = res.send(
-            JSON.stringify({
-              error: 'Something went wrong while attempting to send the email.',
-            })
-          );
+          // result = res.send(
+          //   JSON.stringify({
+          //     error: 'Something went wrong while attempting to send the email.',
+          //   })
+          // );
+          return res.status(400).json({
+            errors: [{ msg: 'Something went wrong while attempting to send the email.' }],
+          });
         } else {
           result = res.send(JSON.stringify({ success: true }));
         }
       });
-
     });
   } catch (err) {
     // if the user doesn't exist, error out
-    result = res.send(
-      JSON.stringify({
-        error: 'Something went wrong while attempting to reset your password. Please Try again',
-      })
-    );
+    // result = res.send(
+    //   JSON.stringify({
+    //     error: 'Something went wrong while attempting to reset your password. Please Try again',
+    //   })
+    // );
+    return res.status(400).json({
+      errors: [
+        { msg: 'Something went wrong while attempting to reset your password. Please Try again!' },
+      ],
+    });
   }
-  return result;
+  // return result;
 });
 
-// save password
-// POST to savepassword
+// @route   POST api/auth/savepassword
+// @desc    Save password
+// @access  public
 router.post('/savepassword', async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   let result;
   try {
     // look up user in the DB based on reset hash
@@ -151,16 +176,22 @@ router.post('/savepassword', async (req, res) => {
       // user passport's built-in password set method
       foundUser.setPassword(req.body.password, err => {
         if (err) {
-          result = res.send(
-            JSON.stringify({ error: 'Password could not be saved. Please try again' })
-          );
+          // result = res.send(
+          //   JSON.stringify({ error: 'Password could not be saved. Please try again' })
+          // );
+          return res.status(400).json({
+            errors: [{ msg: 'Password could not be saved. Please try again!' }],
+          });
         } else {
           // once the password's set, save the user object
           foundUser.save(error => {
             if (error) {
-              result = res.send(
-                JSON.stringify({ error: 'Password could not be saved. Please try again' })
-              );
+              // result = res.send(
+              //   JSON.stringify({ error: 'Password could not be saved. Please try again' })
+              // );
+              return res.status(400).json({
+                errors: [{ msg: 'Password could not be saved. Please try again!' }],
+              });
             } else {
               // Send a success message
               result = res.send(JSON.stringify({ success: true }));
@@ -169,12 +200,18 @@ router.post('/savepassword', async (req, res) => {
         }
       });
     } else {
-      result = res.send(JSON.stringify({ error: 'Reset hash not found in database.' }));
+      // result = res.send(JSON.stringify({ error: 'Reset hash not found in database.' }));
+      return res.status(400).json({
+        errors: [{ msg: 'Reset hash not found in database!' }],
+      });
     }
   } catch (err) {
     result = res.send(JSON.stringify({ error: 'There was an error connecting to the database.' }));
+    return res.status(500).json({
+      errors: [{ msg: 'There was an error connecting to the database.!' }],
+    });
   }
-  return result;
+  // return result;
 });
 
 module.exports = router;

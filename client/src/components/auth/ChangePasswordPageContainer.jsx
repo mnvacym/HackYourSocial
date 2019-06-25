@@ -29,12 +29,7 @@ export class ChangePasswordPageContainer extends React.Component {
 
   render() {
     const { auth } = this.props;
-    return (
-      <ChangePasswordPage
-        auth={auth}
-        sendPasswordFunction={this.sendPassword}
-      />
-    );
+    return <ChangePasswordPage auth={auth} sendPasswordFunction={this.sendPassword} />;
   }
 }
 
