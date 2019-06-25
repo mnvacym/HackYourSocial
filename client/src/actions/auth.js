@@ -107,18 +107,6 @@ export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
 };
 
-<<<<<<< HEAD
-=======
-// here the new code
-export const passwordResetHashCreated = () => ({
-  type: PASSWORD_RESET_HASH_CREATED,
-});
-// export const passwordResetHashFailure = error => ({
-//   type: 'PASSWORD_RESET_HASH_FAILURE',
-//   error,
-// });
-
->>>>>>> d50953a19072fb0f25cf08a267ee6f45591078fa
 // Send email to API for hashing
 export const createHash = email => async dispatch => {
   const config = {
@@ -130,18 +118,11 @@ export const createHash = email => async dispatch => {
   const body = JSON.stringify({ email });
 
   try {
-<<<<<<< HEAD
     await axios.post('/api/auth/saveresethash', body, config);
 
     dispatch({
       type: PASSWORD_RESET_HASH_CREATED,
     });
-=======
-    const res = await axios.post('/api/auth/saveresethash', body, config);
-
-  
-   return dispatch(passwordResetHashCreated())
->>>>>>> d50953a19072fb0f25cf08a267ee6f45591078fa
   } catch (err) {
     console.error(err);
     const errors = err.response.data.errors;

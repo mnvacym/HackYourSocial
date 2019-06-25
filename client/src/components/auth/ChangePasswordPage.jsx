@@ -9,7 +9,7 @@ export default class ChangePasswordPage extends React.Component {
 
     // bound functions
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    // this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleValidSubmit = this.handleValidSubmit.bind(this);
 
     // component state
@@ -82,7 +82,7 @@ export default class ChangePasswordPage extends React.Component {
               minLength="6"
               name="password"
               onChange={this.handleInputChange}
-              onKeyPress={this.handleKeyPress}
+              // onKeyPress={this.handleKeyPress}
               placeholder="password"
               required
               type="password"
@@ -96,7 +96,7 @@ export default class ChangePasswordPage extends React.Component {
               minLength="6"
               name="passwordCheck"
               onChange={this.handleInputChange}
-              onKeyPress={this.handleKeyPress}
+              // onKeyPress={this.handleKeyPress}
               placeholder="password again"
               required
               type="password"
