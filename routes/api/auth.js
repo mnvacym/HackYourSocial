@@ -106,14 +106,10 @@ router.post('/saveresethash', async (req, res) => {
       const message = {
         to: foundUser.email, //email variable
         from: 'yaseir.alkhwalda@gmail.com',
-        message: `${
+        message: `Hi ${foundUser}`,
+        html: `<p>https://hackyoursocial.com/account/change-password/${
           foundUser.passwordReset
-        } ... if you didn't make this request, feel free to ignore it!`,
-        html: `${
-          foundUser.passwordReset
-        }&quot; target="_blank">https://hackyoursocial.com/account/change-password/${
-          foundUser.passwordReset
-        }</a>.</p><p>If you didn't make this request, feel free to ignore it!</p>`,
+          }</p> if you didn't make this request, feel free to ignore it!`,
         subject: 'Reset Your Password',
       };
 
