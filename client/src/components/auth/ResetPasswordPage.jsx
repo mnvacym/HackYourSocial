@@ -51,7 +51,7 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
               password. Please click on that link to proceed with setting a new password.
             </p>
             <p>
-              <a href="/account/reset-password" onClick={() => clearPasswordReset()}>
+              <a href="/auth/reset-password" onClick={() => clearPasswordReset()}>
                 Re-send Email
               </a>
             </p>

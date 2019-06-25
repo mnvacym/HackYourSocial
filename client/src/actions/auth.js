@@ -133,7 +133,7 @@ export const createHash = email => async dispatch => {
       return res.json();
     } */
 
-    dispatch({ type: PASSWORD_RESET_HASH_CREATED });
+    // res.json();
   } catch (err) {
     console.error(err);
     const errors = err.response.data.errors;
@@ -142,6 +142,10 @@ export const createHash = email => async dispatch => {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    // }
+    console.log(err);
     dispatch({
       type: PASSWORD_RESET_HASH_FAILURE,
     });
