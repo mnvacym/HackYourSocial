@@ -20,8 +20,8 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
-  isPasswordReset: false, // new code
-  isPasswordChanged: false, // new code
+  isPasswordReset: false,
+  isPasswordChanged: false,
 };
 
 export default function(state = initialState, action) {
