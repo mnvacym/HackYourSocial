@@ -29,6 +29,16 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
     setFormData({ ...formData, email: e.target.value });
   };
 
+<<<<<<< HEAD
+=======
+  // catch enter clicks
+  // const handleKeyPress = target => {
+  //   if (target.charCode === 13) {
+  //     handleValidSubmit();
+  //   }
+  // };
+
+>>>>>>> d50953a19072fb0f25cf08a267ee6f45591078fa
   // Handle submission once all form data is valid
   const handleValidSubmit = () => {
     createHash(email);
@@ -64,6 +74,10 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
                   id="userEmail"
                   name="email"
                   onChange={e => handleEmailChange(e)}
+<<<<<<< HEAD
+=======
+                  // onKeyPress={() => handleKeyPress()}
+>>>>>>> d50953a19072fb0f25cf08a267ee6f45591078fa
                   placeholder="Please enter your email here."
                   required
                   type="email"
