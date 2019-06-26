@@ -125,6 +125,29 @@ img {
 .my-3 {
   margin: 3rem 0;
 }
+.mt-1 {
+  margin: 1rem 0 0 0;
+}
+
+.shr-btn {
+  display: inline-block;
+  position: absolute;
+}
+
+.shr-text {
+  right: 11rem;
+  bottom: 1rem;
+}
+
+.twitter {
+  right: 7rem;
+  bottom: 1rem;
+}
+
+.linkedin {
+  right: 4rem;
+  bottom: 1rem;
+}
 
 .btn {
   display: inline-block;
@@ -464,6 +487,7 @@ button {
   grid-template-columns: 1fr 4fr;
   grid-gap: 2rem;
   align-items: center;
+  position: relative;
 }
 
 .post > div:first-child {
