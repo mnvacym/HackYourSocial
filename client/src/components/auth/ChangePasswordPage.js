@@ -10,7 +10,6 @@ const ChangePasswordPage = ({
   passwordSaveClear,
   savePassword,
   isPasswordChanged,
-  isAuthenticated,
   match,
 }) => {
   const [formData, setFormData] = useState({
@@ -43,8 +42,7 @@ const ChangePasswordPage = ({
     }
   };
 
-  // If they just changed a password and AREN'T logged in
-  if (isPasswordChanged && !isAuthenticated) {
+  if (isPasswordChanged) {
     return (
       <div className="row justify-content-center">
         <div className="col-10 col-sm-7 col-md-5 col-lg-4">
@@ -52,17 +50,6 @@ const ChangePasswordPage = ({
             Your changes have been saved, and you can now <Link to="/login">log in</Link> with the
             new password.
           </p>
-        </div>
-      </div>
-    );
-  }
-
-  // If they just changed a password and ARE logged in
-  if (isPasswordChanged && isAuthenticated) {
-    return (
-      <div className="row justify-content-center">
-        <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-          <p>Your new password has been saved.</p>
         </div>
       </div>
     );
@@ -104,12 +91,10 @@ const ChangePasswordPage = ({
 
 ChangePasswordPage.propTypes = {
   isPasswordChanged: PropTypes.bool,
-  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   isPasswordChanged: state.auth.isPasswordChanged,
-  isAuthenticated: state.auth.isLoggedIn,
 });
 
 export default connect(
