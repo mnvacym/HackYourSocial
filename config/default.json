@@ -3,10 +3,6 @@
   "jwtSecret": "mysecrettoken",
   "githubClientId": "de50a87630d9ed45b81d",
   "githubSecret": "b1a2ddad1fa5e0aa0495737ac99cf0766ac56a8e",
-  "mailgun": {
-    "apiKey": "b079cf614dc210d3523e5d3dd035c0db-29b7488f-fc4ba7b3",
-    "domain": "sandboxd956b1d1647e44058060757347bf41c7.mailgun.org"
-  },
   "sendgrid": "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",
-  "sendgridSecret": "thisIsTheSecretForHash-mMu9PBAivGXmNMEolCSSfDQvh2Dv6fXrPcyQxT08SkI"
+  "passwordChangeSecret": "thisIsTheSecretForHash-mMu9PBAivGXmNMEolCSSfDQvh2Dv6fXrPcyQxT08SkI"
 }

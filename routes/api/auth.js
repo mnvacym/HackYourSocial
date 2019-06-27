@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator/check');
-const crypto = require('crypto');
 const Sgmail = require('@sendgrid/mail');
 Sgmail.setApiKey(config.get('sendgrid'));
 
@@ -84,16 +83,18 @@ router.post(
       // check and make sure the email exists
       const foundUser = await User.findOne({ email: req.body.email });
 
-      // If the user exists, save their password hash
+      // configure jsonwebtoken for expiring reset request
       const timeInMs = Date.now();
-      const hashString = `${req.body.email}${timeInMs}`;
-      const secret = config.get('sendgridSecret');
-      const hash = crypto
-        .createHmac('sha256', secret)
-        .update(hashString)
-        .digest('hex');
+      const hashString = `${foundUser.id}${timeInMs}`;
+      const payload = {
+        token: {
+          value: hashString,
+        },
+      };
 
-      foundUser.passwordReset = hash;
+      foundUser.passwordReset = jwt.sign(payload, config.get('passwordChangeSecret'), {
+        expiresIn: 60,
+      });
       foundUser.save();
 
       const message = {
@@ -190,6 +191,14 @@ router.post(
 
     try {
       const { password, hash: passwordReset } = req.body;
+
+      jwt.verify(passwordReset, config.get('passwordChangeSecret'), err => {
+        if (err) {
+          return res.status(400).json({
+            errors: [{ msg: 'Request is not valid, Please Try again!' }],
+          });
+        }
+      });
 
       // look up user in the DB based on reset hash
       const foundUser = await User.findOne({ passwordReset });
