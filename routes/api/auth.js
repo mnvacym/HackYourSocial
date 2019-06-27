@@ -80,7 +80,6 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    let result;
     try {
       // check and make sure the email exists
       const foundUser = await User.findOne({ email: req.body.email });
@@ -95,45 +94,78 @@ router.post(
         .digest('hex');
 
       foundUser.passwordReset = hash;
-      foundUser.save(err => {
-        if (err) {
-          console.log('save error');
-          return res.status(400).json({
-            errors: [
-              {
-                msg:
-                  'Something went wrong while attempting to reset your password. Please Try again!',
-              },
-            ],
-          });
-        }
+      foundUser.save();
 
-        const message = {
-          to: foundUser.email, //email variable
-          from: 'hyfproject19@gmail.com',
-          subject: 'Reset Your Password',
-          html: `<h1>Hi ${foundUser.name},</h1>
-        <p> Please click the below link to reset your password</p>      
-        <a href="http://localhost:3000/auth/change-password/${
-          foundUser.passwordReset
-        }" target="_blank"> Take me to the reset page</a>
-        <p>If you didn't make this request, feel free to ignore it!</p>`,
-        };
-
-        Sgmail.send(message, (error, result) => {
-          if (error) {
-            console.log('send error');
-            return res.status(400).json({
-              errors: [{ msg: 'Something went wrong while attempting to send the email.' }],
-            });
-          } else {
-            result = res.send(JSON.stringify({ success: true }));
+      const message = {
+        to: foundUser.email, //email variable
+        from: 'hyfproject19@gmail.com',
+        subject: 'Reset Your Password',
+        html: `
+        <style>
+        .navbar {
+          padding: 0.7rem 2rem;
+          width: 100%;
+          border-bottom: solid 1px #33383e;
+          opacity: 0.9;
+          color: #fff;
           }
-        });
-      });
+        .bg-dark{
+            background: #363b3f;
+            color: #fff;
+          }
+        a {
+              text-decoration: none;
+          }
+        p {
+              font-size: 1.5rem;
+              margin-bottom: 1rem;
+          }
+        body{
+            margin:0;
+            padding:0;
+            max-width:800px;
+            text-align:center;
+          }
+        .btn {
+            display: inline-block;
+            color: #333;
+            padding: 0.4rem 1.3rem;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            transition: opacity 0.2s ease-in;
+            outline: none;
+        }
+          .btn-primary {
+            background: #17a2b8;
+            color: #fff;
+        }
+        </style>
+        <script src="https://kit.fontawesome.com/2226fc3df0.js"></script>
+        <body>
+        <div class="navbar bg-dark"><h1><i class="fas fa-code" aria-hidden="true"></i>HackYourSocial</div>
+        <h2>Hi ${foundUser.name},</h2>
+        <p>We've received a request to reset your password. Click the button below to reset it</p>  
+        <form action="http://localhost:3000/auth/change-password/${foundUser.passwordReset}">
+          <input class="btn btn-primary" type="submit" value="Reset My Password" />
+        </form>
+        <p>If you didn't make the request please ignore this email, or reply to let us know. This password reset is valid only for next 30 minutes</p>
+        <p>If you're having trouble with clicking the password reset button, copy and paste the URL below into your web browser.</p> <a href="http://localhost:3000/auth/change-password/${
+          foundUser.passwordReset
+        }" target="_blank">http://localhost:3000/auth/change-password/${
+          foundUser.passwordReset
+        }</a></p>
+        <p>Thanks,</p>
+        <p>Hack Your Social Team</p>
+        </body>
+        `,
+      };
+
+      Sgmail.send(message);
+      res.status(200).json({ success: true });
     } catch (err) {
-      console.log('user does not exist');
-      return res.status(400).json({
+      res.status(500).json({
         errors: [
           {
             msg: 'Something went wrong while attempting to reset your password. Please Try again!',
@@ -141,7 +173,6 @@ router.post(
         ],
       });
     }
-    return result;
   },
 );
 
@@ -156,7 +187,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    let result;
+
     try {
       const { password, hash: passwordReset } = req.body;
 
@@ -169,25 +200,19 @@ router.post(
         const newPassword = await bcrypt.hash(password, salt);
         foundUser.password = newPassword;
         foundUser.passwordReset = '';
-
-        // once the password's set, save the user object
         foundUser.save();
+
         result = res.send(JSON.stringify({ success: true }));
       } else {
-        // result = res.send(JSON.stringify({ error: 'Reset hash not found in database.' }));
         return res.status(400).json({
-          errors: [{ msg: 'Reset hash not found in database!' }],
+          errors: [{ msg: 'Request is not valid, Please Try again!' }],
         });
       }
     } catch (err) {
-      console.error(err);
-
-      //result = res.send(JSON.stringify({ error: 'There was an error connecting to the database.' }));
-      return res.status(500).json({
-        errors: [{ msg: 'There was an error connecting to the database.!' }],
+      res.status(500).json({
+        errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-    return result;
   },
 );
 
