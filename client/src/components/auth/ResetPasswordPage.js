@@ -40,6 +40,9 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
                 An email has been sent to email address you provided containing a link to reset your
                 password. Please click on that link to proceed with setting a new password.
               </p>
+              <br />
+
+              <p>And please check your spam box.</p>
               <p>
                 <a href="/auth/reset-password" onClick={() => clearPasswordReset()}>
                   Re-send Email
