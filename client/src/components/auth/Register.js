@@ -5,7 +5,7 @@ import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
-const Register = ({ setAlert, register, isAuthenticated, isVerified }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +22,7 @@ const Register = ({ setAlert, register, isAuthenticated, isVerified }) => {
     if (password !== password2) {
       setAlert('Passwords do not match!', 'danger');
     } else {
+      console.log('a');
       register({ name, email, password });
     }
   };
@@ -57,7 +58,8 @@ const Register = ({ setAlert, register, isAuthenticated, isVerified }) => {
             required
           />
           <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a Gravatar email
+            This site uses Gravatar so if you want a profile image, use a Gravatar email or login
+            with your social account.
           </small>
         </div>
         <div className="form-group">
@@ -93,12 +95,10 @@ Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  isVerified: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  isVerified: state.auth.isVerified,
 });
 
 export default connect(

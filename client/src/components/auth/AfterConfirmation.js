@@ -14,7 +14,7 @@ const Confirmation = ({ verifyAccount }) => {
       <h1 className="large text-primary">Verification</h1>
       <p className="lead">
         Your account is verified. You can go to your dashboard by clicking this{' '}
-        <Link to="/dashboard">link</Link>.
+        <a href="/dashboard">link</a>.
       </p>
 
       <p className="my-1">Have a nice networking! Thank you.</p>

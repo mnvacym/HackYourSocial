@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -20,18 +20,7 @@ const Dashboard = ({
   }, [getCurrentProfile]);
 
   if (!isVerified) {
-    return (
-      <Fragment>
-        <h1 className="large text-primary">Please verify your account</h1>
-        <p className="lead">
-          We sent you an email which contains a verification link. Please click on the link to
-          verify your account. Thank you.
-        </p>
-        <p className="my-1">Do not forget to check your spam box.</p>
-
-        <p className="my-1">Hack Your Social Team.</p>
-      </Fragment>
-    );
+    return <Redirect to="/verification" />;
   }
 
   return loading && profile === null ? (

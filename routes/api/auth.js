@@ -13,8 +13,11 @@ const { check, validationResult } = require('express-validator/check');
 // @access  Public
 router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
+    if (User.isVerified) {
+      const user = await User.findById(req.user.id).select('-password');
+      res.json(user);
+    }
+    res.redirect('/verification');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error!');
@@ -64,7 +67,7 @@ router.post(
       console.log(err.message);
       res.status(500).send('Server error');
     }
-  },
+  }
 );
 
 module.exports = router;

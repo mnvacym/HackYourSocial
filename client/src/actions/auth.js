@@ -102,11 +102,24 @@ export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
 };
 
-export const verifyAccount = () => dispatch => {
+// Verify Account
+export const verifyAccount = verifyToken => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({ verifyToken });
+
   try {
+    const res = await axios.post('/api/users/verify', body, config);
+
     dispatch({
       type: VERIFY_ACCOUNT,
+      payload: res.data,
     });
+
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
