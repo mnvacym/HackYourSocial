@@ -7,6 +7,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   ACCOUNT_DELETED,
+  VERIFY_ACCOUNT,
 } from '../actions/types';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  isVerified: false,
 };
 
 export default function(state = initialState, action) {
@@ -45,6 +47,12 @@ export default function(state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
+        loading: false,
+      };
+    case VERIFY_ACCOUNT:
+      return {
+        ...state,
+        isVerified: true,
         loading: false,
       };
     default:

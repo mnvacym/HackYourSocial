@@ -33,7 +33,7 @@ const sendVerificationToken = async user => {
     },
   };
 
-  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 120 });
+  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 1800 });
   user.save();
 
   // send email
@@ -94,9 +94,12 @@ const sendVerificationToken = async user => {
       <input class="btn btn-primary" type="submit" value="Verify My E-mail" />
     </form>
 
-    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> <a href="http://localhost:3000/users/verify/${
-      user.verifyToken
-    }" target="_blank">http://localhost:3000/users/verify/${user.verifyToken}</a></p>
+    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> 
+    
+    <a href="http://localhost:3000/users/verify/${user.verifyToken}" target="_blank">
+    http://localhost:3000/users/verify/${user.verifyToken}
+    </a>
+
     <p>Thanks,</p>
     <p>Hack Your Social Team</p>
     </body>
@@ -171,7 +174,7 @@ router.post(
       console.log(err.message);
       res.status(500).send('Server error');
     }
-  },
+  }
 );
 
 // @route   POST api/users/verify
@@ -216,7 +219,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  },
+  }
 );
 
 // @route   POST api/users/resendconfirmation
@@ -248,7 +251,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  },
+  }
 );
 
 module.exports = router;

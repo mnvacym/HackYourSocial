@@ -13,10 +13,26 @@ const Dashboard = ({
   deleteAccount,
   auth: { user },
   profile: { profile, loading },
+  isVerified,
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
+
+  if (!isVerified) {
+    return (
+      <Fragment>
+        <h1 className="large text-primary">Please verify your account</h1>
+        <p className="lead">
+          We sent you an email which contains a verification link. Please click on the link to
+          verify your account. Thank you.
+        </p>
+        <p className="my-1">Do not forget to check your spam box.</p>
+
+        <p className="my-1">Hack Your Social Team.</p>
+      </Fragment>
+    );
+  }
 
   return loading && profile === null ? (
     <Spinner />
@@ -55,11 +71,13 @@ Dashboard.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  isVerified: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   profile: state.profile,
+  isVerified: state.auth.isVerified,
 });
 
 export default connect(
