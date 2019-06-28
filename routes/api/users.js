@@ -10,11 +10,38 @@ Sgmail.setApiKey(config.get('sendgrid'));
 
 const User = require('../../models/User');
 
-const sendEmail = user => {
-  const verificationEmail = {
+//delete this route -- only for test
+router.post('/reset', async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  user.isVerified = false;
+  user.save();
+  console.log(user);
+  res.status(200).json({ success: true });
+});
+
+const sendVerificationToken = async user => {
+  // configure jsonwebtoken for expiring reset request
+
+  const timeInMs = Date.now();
+  const hashString = `${user.id}${timeInMs}`;
+
+  const payload = {
+    token: {
+      value: hashString,
+    },
+  };
+
+  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 120 });
+  user.save();
+
+  // send email
+
+  const message = {
     to: user.email, //email variable
     from: 'hyfproject19@gmail.com',
-    subject: 'Confirm Your Account | Hack Your Social',
+    subject: 'Verify Your Account',
     html: `
     <style>
     .navbar {
@@ -51,33 +78,30 @@ const sendEmail = user => {
         outline: none;
     }
       .btn-primary {
-        background: #17a2b8;
+        background: #fa7c3c;
         color: #fff;
     }
     </style>
-    <script src="https://kit.fontawesome.com/2226fc3df0.js"></script>
     <body>
     <div class="navbar bg-dark"><h1><i class="fas fa-code" aria-hidden="true"></i>HackYourSocial</div>
     <h2>Hi ${user.name},</h2>
-    <p>You've just created your Hack Your Social account. You just need to confirm your account to go on. Just click the button below :)</p>  
-    <form action="http://localhost:3000/user/verification/${user.verificationHash}">
-      <input class="btn btn-primary" type="submit" value="Verify The Account" />
+    <p>Welcome to HackYourSocial!</p>
+    <p>You're almost ready to start enjoying HackYourSocial</p>
+    <p>Simply click the big orange button below to verify your e-mail address</p>  
+    <form action="http://localhost:3000/users/verify/${user.verifyToken}">
+      <input class="btn btn-primary" type="submit" value="Verify My E-mail" />
     </form>
-    <p>If you're having trouble with clicking the verify the account, copy and paste the URL below into your web browser.</p>
-      <a
-        href="http://localhost:3000/user/verification/${user.verificationHash}" 
-        target="_blank">http://localhost:3000/user/verification/${user.verificationHash}
-      </a>
-    </p>
+
+    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> <a href="http://localhost:3000/users/verify/${
+      user.verifyToken
+    }" target="_blank">http://localhost:3000/users/verify/${user.verifyToken}</a></p>
     <p>Thanks,</p>
     <p>Hack Your Social Team</p>
     </body>
     `,
   };
 
-  Sgmail.send(verificationEmail);
-
-  res.status(200).json({ success: true });
+  Sgmail.send(message);
 };
 
 // @route   POST api/users
@@ -137,10 +161,12 @@ router.post(
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '10h' }, async (err, token) => {
         if (err) throw err;
 
-        user.verificationHash = token;
-        sendEmail(user);
+        user.verifyToken = token;
       });
 
+      //confirmation email -- to be a function
+
+      await sendVerificationToken(user);
       await user.save();
 
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
@@ -154,36 +180,81 @@ router.post(
   },
 );
 
-// User Verification
-router.get('/verification/:token', (req, res) => {
-  try {
-    const user = User.findOne({ verificationHash: req.params.token });
+// @route   POST api/users/verify
+// @desc    user confirmation
+// @access  Public
 
-    if (!user.verificationHash)
-      return res.status(400).json({ errors: [{ msg: 'Invalid token!' }] });
+router.post(
+  '/verify',
+  [
+    check('verifyToken', 'verifyToken is required!')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
 
-    if (user.isVerified) {
-      return res.status(400).json({ errors: [{ msg: 'User already verified!' }] });
-    } else {
-      User.findOneAndUpdate(
-        { verificationHash: req.params.token },
-        {
-          $set: {
-            isVerified: true,
-            verificationHash: null,
-          },
-        },
-      );
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    user.save(err => {
-      if (err) return res.status(500).json({ errors: [{ msg: err.message }] });
-      res.status(200).json({ msg: 'User is verified!' });
-    });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send('Server error!');
-  }
-});
+    const { verifyToken } = req.body;
+
+    try {
+      jwt.verify(verifyToken, config.get('verificationSecret'));
+
+      const user = await User.findOne({ verifyToken });
+
+      user.isVerified = true;
+      user.verifyToken = '';
+      user.save();
+      console.log(user);
+
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.error(err);
+      if (err.name === 'TokenExpiredError') {
+        return res.status(500).json({
+          errors: [{ msg: 'Request is not valid, Please Try again!' }],
+        });
+      }
+      res.status(500).json({
+        errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
+      });
+    }
+  },
+);
+
+// @route   POST api/users/resendconfirmation
+// @desc    resend confirmation
+// @access  Public
+router.post(
+  '/resendconfirmation',
+  [check('email', 'Please include a valid email!').isEmail()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email } = req.body;
+
+    try {
+      user = await User.findOne({ email });
+
+      if (user.isVerified) {
+        return res.status(400).json({ errors: [{ msg: 'This user has already verified' }] });
+      }
+
+      await sendVerificationToken(user);
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
+      });
+    }
+  },
+);
 
 module.exports = router;
