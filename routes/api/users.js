@@ -16,7 +16,7 @@ router.post('/reset', async (req, res) => {
   const user = await User.findOne({ email });
 
   user.isVerified = false;
-  user.save();
+  await user.save();
   console.log(user);
   res.status(200).json({ success: true });
 });
@@ -34,7 +34,7 @@ const sendVerificationToken = async user => {
   };
 
   user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 1800 });
-  user.save();
+  await user.save();
 
   // send email
 
@@ -180,7 +180,7 @@ router.post(
       console.log(err.message);
       res.status(500).send('Server error');
     }
-  }
+  },
 );
 
 // @route   POST api/users/verify
@@ -210,7 +210,7 @@ router.post(
 
       user.isVerified = true;
       user.verifyToken = '';
-      user.save();
+      await user.save();
       console.log(user);
 
       res.status(200).json({ success: true });
@@ -225,7 +225,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  }
+  },
 );
 
 // @route   POST api/users/resendconfirmation
@@ -257,7 +257,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  }
+  },
 );
 
 module.exports = router;
