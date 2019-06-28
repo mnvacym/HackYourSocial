@@ -55,9 +55,7 @@ const sendVerificationToken = async user => {
         background: #363b3f;
         color: #fff;
       }
-    a {
-          text-decoration: none;
-      }
+    a { text-decoration: none; }
     p {
           font-size: 1.5rem;
           margin-bottom: 1rem;
@@ -153,12 +151,7 @@ router.post(
 
       // Encrypt password
       const salt = await bcrypt.genSalt(10);
-
       user.password = await bcrypt.hash(password, salt);
-      await user.save();
-      //confirmation email -- to be a function
-
-      await sendVerificationToken(user);
 
       // Return jsonwebtoken
       const payload = {
@@ -166,6 +159,19 @@ router.post(
           id: user.id,
         },
       };
+
+      // Verification hash
+      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '10h' }, async (err, token) => {
+        if (err) throw err;
+
+        user.verifyToken = token;
+      });
+
+      //confirmation email -- to be a function
+
+      await sendVerificationToken(user);
+      await user.save();
+
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
