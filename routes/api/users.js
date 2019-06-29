@@ -16,7 +16,7 @@ router.post('/reset', async (req, res) => {
   const user = await User.findOne({ email });
 
   user.isVerified = false;
-  user.save();
+  await user.save();
   res.status(200).json({ success: true });
 });
 
@@ -34,7 +34,7 @@ const sendVerificationToken = async user => {
   };
 
   user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 60000 });
-  user.save();
+  await user.save();
 
   const message = {
     to: user.email, //email variable
@@ -197,7 +197,7 @@ router.post(
 
       user.isVerified = true;
       user.verifyToken = '';
-      user.save();
+      await user.save();
 
       res.status(200).json({ success: true });
     } catch (err) {
