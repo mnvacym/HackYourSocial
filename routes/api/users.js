@@ -17,10 +17,10 @@ router.post('/reset', async (req, res) => {
 
   user.isVerified = false;
   user.save();
-  console.log(user);
   res.status(200).json({ success: true });
 });
 
+// send verification email
 const sendVerificationToken = async user => {
   // configure jsonwebtoken for expiring reset request
 
@@ -33,10 +33,8 @@ const sendVerificationToken = async user => {
     },
   };
 
-  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 1800 });
+  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 60000 });
   user.save();
-
-  // send email
 
   const message = {
     to: user.email, //email variable
@@ -55,7 +53,9 @@ const sendVerificationToken = async user => {
         background: #363b3f;
         color: #fff;
       }
-    a { text-decoration: none; }
+    a {
+          text-decoration: none;
+      }
     p {
           font-size: 1.5rem;
           margin-bottom: 1rem;
@@ -91,13 +91,9 @@ const sendVerificationToken = async user => {
     <form action="http://localhost:3000/users/verify/${user.verifyToken}">
       <input class="btn btn-primary" type="submit" value="Verify My E-mail" />
     </form>
-
-    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> 
-    
-    <a href="http://localhost:3000/users/verify/${user.verifyToken}" target="_blank">
-    http://localhost:3000/users/verify/${user.verifyToken}
-    </a>
-
+    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> <a href="http://localhost:3000/users/verify/${
+      user.verifyToken
+    }" target="_blank">http://localhost:3000/users/verify/${user.verifyToken}</a></p>
     <p>Thanks,</p>
     <p>Hack Your Social Team</p>
     </body>
@@ -151,7 +147,12 @@ router.post(
 
       // Encrypt password
       const salt = await bcrypt.genSalt(10);
+
       user.password = await bcrypt.hash(password, salt);
+      await user.save();
+      //confirmation email -- to be a function
+
+      await sendVerificationToken(user);
 
       // Return jsonwebtoken
       const payload = {
@@ -159,19 +160,6 @@ router.post(
           id: user.id,
         },
       };
-
-      // Verification hash
-      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '10h' }, async (err, token) => {
-        if (err) throw err;
-
-        user.verifyToken = token;
-      });
-
-      //confirmation email -- to be a function
-
-      await sendVerificationToken(user);
-      await user.save();
-
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
@@ -186,7 +174,6 @@ router.post(
 // @route   POST api/users/verify
 // @desc    user confirmation
 // @access  Public
-
 router.post(
   '/verify',
   [
@@ -211,7 +198,6 @@ router.post(
       user.isVerified = true;
       user.verifyToken = '';
       user.save();
-      console.log(user);
 
       res.status(200).json({ success: true });
     } catch (err) {

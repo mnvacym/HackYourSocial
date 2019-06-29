@@ -13,11 +13,8 @@ const { check, validationResult } = require('express-validator/check');
 // @access  Public
 router.get('/', auth, async (req, res) => {
   try {
-    if (User.isVerified) {
-      const user = await User.findById(req.user.id).select('-password');
-      res.json(user);
-    }
-    res.redirect('/verification');
+    const user = await User.findById(req.user.id).select('-password -verifyToken');
+    res.json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error!');

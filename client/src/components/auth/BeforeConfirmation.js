@@ -1,7 +1,26 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-const Confirmation = () => {
+import axios from 'axios';
+import PropTypes from 'prop-types';
+
+const BeforeConfirmation = ({ email, isVerified }) => {
+  const onClick = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const body = JSON.stringify({ email });
+    await axios.post('/api/users/resendconfirmation', body, config);
+  };
+
+  if (isVerified) {
+    return <Redirect to="/dashboard" />;
+  }
+
   return (
     <Fragment>
       <h1 className="large text-primary">Please verify your account</h1>
@@ -11,9 +30,22 @@ const Confirmation = () => {
       </p>
       <p className="my-1">Do not forget to check your spam box.</p>
 
+      <button className="btn btn-primary" onClick={onClick}>
+        Resend Verification Email
+      </button>
       <p className="my-1">Hack Your Social Team.</p>
     </Fragment>
   );
 };
 
-export default connect()(Confirmation);
+BeforeConfirmation.propTypes = {
+  email: PropTypes.string.isRequired,
+  isVerified: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  email: state.auth.email,
+  isVerified: state.auth.isVerified,
+});
+
+export default connect(mapStateToProps)(BeforeConfirmation);

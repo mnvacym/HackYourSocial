@@ -8,6 +8,7 @@ import {
   LOGOUT,
   ACCOUNT_DELETED,
   VERIFY_ACCOUNT,
+  USER_NOT_VERIFIED,
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   loading: true,
   user: null,
   isVerified: false,
+  email: '',
 };
 
 export default function(state = initialState, action) {
@@ -24,6 +26,7 @@ export default function(state = initialState, action) {
     case USER_LOADED:
       return {
         ...state,
+        isVerified: true,
         isAuthenticated: true,
         loading: false,
         user: payload,
@@ -53,6 +56,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isVerified: true,
+        loading: false,
+      };
+    case USER_NOT_VERIFIED:
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
         loading: false,
       };
     default:

@@ -9,6 +9,7 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
   VERIFY_ACCOUNT,
+  USER_NOT_VERIFIED,
 } from './types';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
@@ -21,10 +22,20 @@ export const loadUser = () => async dispatch => {
   try {
     const res = await axios.get('/api/auth');
 
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
+    if (res.data.isVerified) {
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
+    } else {
+      dispatch({
+        type: USER_NOT_VERIFIED,
+        payload: {
+          isVerified: res.data.isVerified,
+          email: res.data.email,
+        },
+      });
+    }
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

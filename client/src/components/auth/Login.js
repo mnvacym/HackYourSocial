@@ -22,7 +22,7 @@ const Login = ({ login, isAuthenticated }) => {
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
-  // console.clear(); 
+  console.clear();
 
   return (
     <Fragment>
