@@ -33,8 +33,10 @@ const sendVerificationToken = async user => {
     },
   };
 
-  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 60000 });
+  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 1800 });
   await user.save();
+
+  // send email
 
   const message = {
     to: user.email, //email variable
