@@ -21,6 +21,8 @@ const BeforeConfirmation = ({ email, isVerified }) => {
     return <Redirect to="/dashboard" />;
   }
 
+  console.clear();
+
   return (
     <Fragment>
       <h1 className="large text-primary">Please verify your account</h1>

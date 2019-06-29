@@ -23,6 +23,8 @@ const Dashboard = ({
     return <Redirect to="/verification" />;
   }
 
+  console.clear();
+
   return loading && profile === null ? (
     <Spinner />
   ) : (
