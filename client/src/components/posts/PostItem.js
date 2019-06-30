@@ -4,25 +4,16 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { TwitterShareButton, TwitterIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
-import { addLike, deletePost } from '../../actions/post';
+import { addLike, addUnLike, deletePost } from '../../actions/post';
+
 const baseURL = window.location.origin;
+
 const PostItem = ({
   addLike,
-  // addUnLike,
+  addUnLike,
   deletePost,
   auth,
-  post: {
-    _id,
-    title,
-    text,
-    name,
-    avatar,
-    user,
-    likes,
-    // unlikes,
-    comments,
-    date,
-  },
+  post: { _id, title, text, name, avatar, user, likes, unlikes, comments, date },
   showActions,
 }) => (
   <div className='post bg-white p-1 my-1'>
@@ -43,12 +34,12 @@ const PostItem = ({
         <Fragment>
           <button onClick={() => addLike(_id)} type='button' className='btn btn-light'>
             <i className='fas fa-thumbs-up' />{' '}
-            <span>{likes.length >= 0 && <span>{likes.length}</span>}</span>
+            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
           </button>
-          {/* <button onClick={() => addUnLike(_id)} type='button' className='btn btn-light'>
+          <button onClick={() => addUnLike(_id)} type='button' className='btn btn-light'>
             <i className='fas fa-thumbs-down' />{' '}
-            <span>{unlikes.length >= 0 && <span>{unlikes.length}</span>}</span>
-          </button> */}
+            <span>{unlikes.length > 0 && <span>{unlikes.length}</span>}</span>
+          </button>
           <Link to={`/posts/${_id}`} className='btn btn-primary'>
             Discussion{' '}
             {comments.length > 0 && <span className='comment-count'>{comments.length}</span>}
@@ -60,20 +51,11 @@ const PostItem = ({
           )}
           <div>
             <h4 className='shr-btn shr-text'>Share on: </h4>
-            {/* Share on Twitter:
-            title: Title of the shared page (string)
-            via: (string)
-            hashtags: (array) */}
-            <TwitterShareButton
-              url={`${baseURL}/posts/${_id}`}
-              title={title}
-              className='shr-btn twitter'
-            >
-              <TwitterIcon size={40} round={true} />
+            <TwitterShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn twitter'>
+              <TwitterIcon size={40} round={false} />
             </TwitterShareButton>
-            {/* Share on Linkedin */}
             <LinkedinShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn linkedin'>
-              <LinkedinIcon size={40} round={true} />
+              <LinkedinIcon size={40} round={false} />
             </LinkedinShareButton>
           </div>
         </Fragment>
@@ -90,7 +72,7 @@ PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
-  // unLike: PropTypes.func.isRequired,
+  addUnLike: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
 };
 
@@ -100,5 +82,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addLike, deletePost }
+  { addLike, addUnLike, deletePost }
 )(PostItem);
