@@ -10,15 +10,6 @@ Sgmail.setApiKey(config.get('sendgrid'));
 
 const User = require('../../models/User');
 
-//delete this route -- only for test
-router.post('/reset', async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-
-  user.isVerified = false;
-  await user.save();
-  res.status(200).json({ success: true });
-});
 
 // send verification email
 const sendVerificationToken = async user => {
