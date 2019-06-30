@@ -4,6 +4,7 @@ import {
   GET_POSTS,
   POST_ERROR,
   UPDATE_LIKES,
+  UPDATE_UNLIKES,
   DELETE_POST,
   ADD_POST,
   GET_POST,
@@ -32,10 +33,11 @@ export const getPosts = () => async dispatch => {
 export const addLike = id => async dispatch => {
   try {
     const res = await axios.put(`/api/posts/like/${id}`);
+    const res1 = await axios.get(`/api/posts/unlike/${id}`);
 
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
+      payload: { id, likes: res.data, unlikes: res1.data },
     });
   } catch (err) {
     dispatch({
@@ -45,14 +47,15 @@ export const addLike = id => async dispatch => {
   }
 };
 
-// Remove like
-export const removeLike = id => async dispatch => {
+// Add unlike
+export const addUnLike = id => async dispatch => {
   try {
     const res = await axios.put(`/api/posts/unlike/${id}`);
+    const res1 = await axios.get(`/api/posts/like/${id}`);
 
     dispatch({
-      type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
+      type: UPDATE_UNLIKES,
+      payload: { id, unlikes: res.data, likes: res1.data },
     });
   } catch (err) {
     dispatch({
