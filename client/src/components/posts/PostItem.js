@@ -52,10 +52,10 @@ const PostItem = ({
           <div>
             <h4 className='shr-btn shr-text'>Share on: </h4>
             <TwitterShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn twitter'>
-              <TwitterIcon size={40} round={false} />
+              <TwitterIcon size={40} round={true} />
             </TwitterShareButton>
             <LinkedinShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn linkedin'>
-              <LinkedinIcon size={40} round={false} />
+              <LinkedinIcon size={40} round={true} />
             </LinkedinShareButton>
           </div>
         </Fragment>
