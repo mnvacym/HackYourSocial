@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { TwitterShareButton, TwitterIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import { addLike, deletePost } from '../../actions/post';
-
+const baseURL = window.location.origin;
 const PostItem = ({
   addLike,
   // addUnLike,
@@ -60,21 +60,19 @@ const PostItem = ({
           )}
           <div>
             <h4 className='shr-btn shr-text'>Share on: </h4>
-
             {/* Share on Twitter:
             title: Title of the shared page (string)
             via: (string)
             hashtags: (array) */}
             <TwitterShareButton
-              url={`http://localhost:3000/posts/${_id}`}
+              url={`${baseURL}/posts/${_id}`}
               title={title}
               className='shr-btn twitter'
             >
               <TwitterIcon size={40} round={true} />
             </TwitterShareButton>
-
             {/* Share on Linkedin */}
-            <LinkedinShareButton url={`http://localhost:3000/posts`} className='shr-btn linkedin'>
+            <LinkedinShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn linkedin'>
               <LinkedinIcon size={40} round={true} />
             </LinkedinShareButton>
           </div>
