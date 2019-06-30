@@ -9,6 +9,12 @@ import {
   ACCOUNT_DELETED,
   VERIFY_ACCOUNT,
   USER_NOT_VERIFIED,
+  PASSWORD_RESET_CLEAR,
+  PASSWORD_RESET_HASH_CREATED,
+  PASSWORD_RESET_HASH_FAILURE,
+  PASSWORD_SAVE_CLEAR,
+  PASSWORD_SAVE_SUCCESS,
+  PASSWORD_SAVE_FAILURE,
 } from '../actions/types';
 
 const initialState = {
@@ -18,6 +24,8 @@ const initialState = {
   user: null,
   isVerified: false,
   email: '',
+  isPasswordReset: false,
+  isPasswordChanged: false,
 };
 
 export default function(state = initialState, action) {
@@ -64,6 +72,28 @@ export default function(state = initialState, action) {
         ...payload,
         isAuthenticated: true,
         loading: false,
+      };
+    case PASSWORD_RESET_CLEAR:
+    case PASSWORD_RESET_HASH_FAILURE:
+      return {
+        ...state,
+        isPasswordReset: false,
+      };
+    case PASSWORD_RESET_HASH_CREATED:
+      return {
+        ...state,
+        isPasswordReset: true,
+      };
+    case PASSWORD_SAVE_CLEAR:
+    case PASSWORD_SAVE_FAILURE:
+      return {
+        ...state,
+        isPasswordChanged: false,
+      };
+    case PASSWORD_SAVE_SUCCESS:
+      return {
+        ...state,
+        isPasswordChanged: true,
       };
     default:
       return state;

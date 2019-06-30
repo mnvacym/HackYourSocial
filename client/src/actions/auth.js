@@ -10,6 +10,12 @@ import {
   CLEAR_PROFILE,
   VERIFY_ACCOUNT,
   USER_NOT_VERIFIED,
+  PASSWORD_RESET_CLEAR,
+  PASSWORD_RESET_HASH_CREATED,
+  PASSWORD_RESET_HASH_FAILURE,
+  PASSWORD_SAVE_CLEAR,
+  PASSWORD_SAVE_SUCCESS,
+  PASSWORD_SAVE_FAILURE,
 } from './types';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
@@ -139,4 +145,74 @@ export const verifyAccount = verifyToken => async dispatch => {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
+};
+
+// Send email to API for hashing
+export const createHash = email => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({ email });
+
+  try {
+    await axios.post('/api/auth/saveresethash', body, config);
+
+    dispatch({
+      type: PASSWORD_RESET_HASH_CREATED,
+    });
+  } catch (err) {
+    console.error(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    console.log(err);
+    dispatch({
+      type: PASSWORD_RESET_HASH_FAILURE,
+    });
+  }
+};
+
+export const passwordResetClear = () => dispatch => {
+  dispatch({
+    type: PASSWORD_RESET_CLEAR,
+  });
+};
+
+// Save a user's password
+export const savePassword = data => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify(data);
+
+  try {
+    await axios.post('/api/auth/savepassword', body, config);
+
+    dispatch({ type: PASSWORD_SAVE_SUCCESS });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: PASSWORD_SAVE_FAILURE,
+    });
+  }
+};
+
+export const passwordSaveClear = () => dispatch => {
+  dispatch({
+    type: PASSWORD_SAVE_CLEAR,
+  });
 };

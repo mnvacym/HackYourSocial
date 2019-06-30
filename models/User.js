@@ -28,6 +28,8 @@ const UserSchema = new mongoose.Schema({
   verifyToken: {
     type: String,
   },
+  // password reset
+  passwordReset: { type: String, select: false },
 });
 
 module.exports = User = mongoose.model('user', UserSchema);
