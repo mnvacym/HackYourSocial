@@ -65,7 +65,7 @@ router.post(
       console.log(err.message);
       res.status(500).send('Server error');
     }
-  },
+  }
 );
 
 // @route   POST api/auth/saveresethash
@@ -93,7 +93,7 @@ router.post(
       };
 
       foundUser.passwordReset = jwt.sign(payload, config.get('passwordChangeSecret'), {
-        expiresIn: 60,
+        expiresIn: 1800,
       });
       foundUser.save();
 
@@ -174,7 +174,7 @@ router.post(
         ],
       });
     }
-  },
+  }
 );
 
 // @route   POST api/auth/savepassword
@@ -222,7 +222,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  },
+  }
 );
 
 module.exports = router;
