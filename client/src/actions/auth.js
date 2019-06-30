@@ -85,7 +85,6 @@ export const register = ({ name, email, password }) => async dispatch => {
 // Register User by Social Account
 export const socialRegister = token => dispatch => {
   try {
-    console.log(token);
     if (token) {
       dispatch({
         type: SOCIAL_REGISTER_SUCCESS,
@@ -195,8 +194,6 @@ export const createHash = email => async dispatch => {
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
-
-    console.log(err);
     dispatch({
       type: PASSWORD_RESET_HASH_FAILURE,
     });

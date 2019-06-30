@@ -163,7 +163,6 @@ router.post(
         res.json({ token });
       });
     } catch (err) {
-      console.log(err.message);
       res.status(500).send('Server error');
     }
   }
@@ -236,7 +235,6 @@ router.post(
       await sendVerificationToken(user);
       res.status(200).json({ success: true });
     } catch (err) {
-      console.log(err);
       res.status(500).json({
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });

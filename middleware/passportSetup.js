@@ -19,9 +19,6 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
     emails: [{ value: email }],
     photos: [{ value: avatar }],
   } = profile;
-
-  console.log(profile);
-  console.log(name, email, avatar, socialId);
   try {
     // See if user exists
     let user = await User.findOne({ email });
@@ -45,7 +42,6 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 
       user.password = await bcrypt.hash(user.password, salt);
       await user.save();
-      console.log('user saved', user);
     }
 
     // Return jsonwebtoken
@@ -57,11 +53,9 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 
     jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
-      console.log('token:', token);
       done(null, token);
     });
   } catch (err) {
-    console.log(err.message);
     done(err, null);
   }
 };

@@ -9,7 +9,6 @@ const Register = ({ setAlert, register, isAuthenticated, socialRegister }) => {
   useEffect(() => {
     const token = new URL(window.location).searchParams.get('token');
     socialRegister(token);
-    console.log(token);
   }, [socialRegister]);
 
   const [formData, setFormData] = useState({

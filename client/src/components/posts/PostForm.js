@@ -5,30 +5,43 @@ import { addPost } from '../../actions/post';
 
 const PostForm = ({ addPost }) => {
   const [text, setText] = useState('');
+  const [title, setTitle] = useState('');
 
   return (
-    <div className="post-form">
-      <div className="bg-primary p">
+    <div className='post-form'>
+      <div className='bg-primary p'>
         <h3>Say Something...</h3>
       </div>
       <form
-        className="form my-1"
+        className='form my-2'
         onSubmit={e => {
           e.preventDefault();
-          addPost({ text });
+          addPost({ title, text });
           setText('');
+          setTitle('');
         }}
       >
         <textarea
-          name="text"
-          cols="30"
-          rows="5"
-          placeholder="Create a post"
+          name='title'
+          cols='30'
+          rows='1'
+          placeholder='Add a title'
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          className='text-capitalize my-1'
+          required
+        />
+        <textarea
+          className='mt-1'
+          name='text'
+          cols='30'
+          rows='5'
+          placeholder='Create a post'
           value={text}
           onChange={e => setText(e.target.value)}
           required
         />
-        <input type="submit" className="btn btn-dark my-1" value="Submit" />
+        <input type='submit' className='btn btn-dark my-1' value='Submit' />
       </form>
     </div>
   );

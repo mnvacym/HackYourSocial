@@ -65,13 +65,11 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
   // click on skill
   const skillOnClick = () => {
-    console.log('clicked...');
     setActivated({ skillActivated: true, locationActivated: false });
   };
 
   // click on location
   const locationOnClick = () => {
-    console.log('clicked...');
     setActivated({ skillActivated: false, locationActivated: true });
   };
 
