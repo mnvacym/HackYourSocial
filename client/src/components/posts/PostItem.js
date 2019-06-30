@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { TwitterShareButton, TwitterIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import { addLike, addUnLike, deletePost } from '../../actions/post';
 
+const baseURL = window.location.origin;
+
 const PostItem = ({
   addLike,
   addUnLike,
@@ -49,17 +51,10 @@ const PostItem = ({
           )}
           <div>
             <h4 className='shr-btn shr-text'>Share on: </h4>
-            <TwitterShareButton
-              url={`http://localhost:3000/posts/${_id}`}
-              title={title}
-              className='shr-btn twitter'
-            >
+            <TwitterShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn twitter'>
               <TwitterIcon size={40} round={false} />
             </TwitterShareButton>
-            <LinkedinShareButton
-              url={`http://localhost:3000/posts/${_id}`}
-              className='shr-btn linkedin'
-            >
+            <LinkedinShareButton url={`${baseURL}/posts/${_id}`} className='shr-btn linkedin'>
               <LinkedinIcon size={40} round={false} />
             </LinkedinShareButton>
           </div>
