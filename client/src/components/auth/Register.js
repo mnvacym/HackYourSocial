@@ -1,11 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
+import { register, socialRegister } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = ({ setAlert, register, isAuthenticated, socialRegister }) => {
+  useEffect(() => {
+    const token = new URL(window.location).searchParams.get('token');
+    socialRegister(token);
+    console.log(token);
+  }, [socialRegister]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -94,6 +100,7 @@ Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  socialRegister: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -103,5 +110,5 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   // this helps us to reach setAlert within props
-  { setAlert, register }
-)(Register);
+  { setAlert, register, socialRegister }
+)(withRouter(Register));

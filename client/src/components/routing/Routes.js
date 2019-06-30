@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Register from '../auth/Register';
 import BeforeConfirmation from '../auth/BeforeConfirmation';
 import AfterConfirmation from '../auth/AfterConfirmation';
@@ -33,6 +34,11 @@ const Routes = () => {
         <Route exact path="/profile/:id" component={Profile} />
         <Route exact path="/verification" component={BeforeConfirmation} />
         <Route exact path="/users/verify/:token" component={AfterConfirmation} />
+        <Route
+          exact
+          path="/register/social/google"
+          render={() => <Redirect to="/api/auth/social/google" />}
+        />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/create-profile" component={CreateProfile} />
         <PrivateRoute exact path="/edit-profile" component={EditProfile} />

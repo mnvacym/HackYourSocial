@@ -5,5 +5,17 @@
   "githubSecret": "b1a2ddad1fa5e0aa0495737ac99cf0766ac56a8e",
   "sendgrid": "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",
   "verificationSecret": "verification-ZSI6IjVkMGQ3YWUzMDJiZjczNGI3NDMzZWQ2NDE1NjE2NjQxMTkyMzEifSwia",
-  "passwordChangeSecret": "thisIsTheSecretForHash-mMu9PBAivGXmNMEolCSSfDQvh2Dv6fXrPcyQxT08SkI"
+  "passwordChangeSecret": "thisIsTheSecretForHash-mMu9PBAivGXmNMEolCSSfDQvh2Dv6fXrPcyQxT08SkI",
+  "google": {
+    "clientId": "18346263600-ls8p9q7atre6ahrbrl4kpcomioas4m35.apps.googleusercontent.com",
+    "secret": "MzEDBVxVDqA32wNkptlR2Wtt"
+  },
+  "github": {
+    "clientId": "9a7d3d69ee738065b9c9",
+    "secret": "fb2595a68f82c6a19bfdbe98911836402e8f258c"
+  },
+  "facebook": {
+    "clientId": "2422583161305477",
+    "secret": "b217ce098723aa5c066651e8de3f0f4c"
+  }
 }

@@ -1,5 +1,6 @@
 import {
   REGISTER_SUCCESS,
+  SOCIAL_REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
@@ -26,6 +27,7 @@ const initialState = {
   email: '',
   isPasswordReset: false,
   isPasswordChanged: false,
+  socialProfile: null,
 };
 
 export default function(state = initialState, action) {
@@ -45,6 +47,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...payload,
+        isAuthenticated: true,
+        loading: false,
+      };
+    case SOCIAL_REGISTER_SUCCESS:
+      localStorage.setItem('token', payload);
+      return {
+        ...state,
+        payload,
         isAuthenticated: true,
         loading: false,
       };

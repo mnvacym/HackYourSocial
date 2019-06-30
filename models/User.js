@@ -30,6 +30,11 @@ const UserSchema = new mongoose.Schema({
   },
   // password reset
   passwordReset: { type: String, select: false },
+  social: {
+    google: { type: String },
+    github: { type: String },
+    facebook: { type: String },
+  },
 });
 
 module.exports = User = mongoose.model('user', UserSchema);
