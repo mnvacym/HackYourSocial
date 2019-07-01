@@ -13,11 +13,11 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   // === useState ===
   // skill
   const [skill, setSkill] = useState('');
-  const { skillName } = skill;
+  const { skillName = '' } = skill;
 
   // location
   const [location, setLocation] = useState('');
-  const { locationName } = location;
+  const { locationName = '' } = location;
 
   // value state: to save the value input from the search bar
   const [value, setValue] = useState('');
@@ -36,13 +36,15 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   skillActivated ? (settingState = setSkill) : (settingState = setLocation);
 
   // onChange
-  const onChange = e => settingState({ [e.target.name]: e.target.value.toUpperCase() });
+  const onChange = e => settingState({ [e.target.name]: e.target.value });
 
   // click filter button
   const onSubmit = async e => {
     e.preventDefault();
     // save the input value before clearing the field
-    skillActivated ? setValue({ inputValue: skillName }) : setValue({ inputValue: locationName });
+    skillActivated
+      ? setValue({ inputValue: skillName.toUpperCase() })
+      : setValue({ inputValue: locationName.toUpperCase() });
     // clear the input field
     setSkill({ skillName: '' });
     setLocation({ locationName: '' });
@@ -52,14 +54,14 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   skillActivated
     ? // skills
       profiles.map(profile => {
-        if (profile.skills.includes(inputValue)) {
+        profile.skills.length !== 0 &&
+          profile.skills.includes(inputValue) &&
           filtered_profiles.push(profile);
-        }
       })
     : // location
       profiles.map(profile => {
-        if (profile.location === inputValue) {
-          filtered_profiles.push(profile);
+        if (profile.location) {
+          profile.location === inputValue && filtered_profiles.push(profile);
         }
       });
 
@@ -91,17 +93,17 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
         <div className='form-group'>
           <input
             type='text'
-            placeholder={skillActivated ? 'skill(s)' : 'location'}
+            placeholder={skillActivated ? 'skill' : 'location'}
             name={skillActivated ? 'skillName' : 'locationName'}
-            value={skillActivated ? skillName : locationName || ''}
+            value={(skillActivated ? skillName : locationName) || ''}
             onChange={e => onChange(e)}
           />
         </div>
-        {skillActivated && ( // later improvement
+        {/* {skillActivated && ( // later improvement
           <small className='form-text'>
             (FOR SKILLS) Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
           </small>
-        )}
+        )} */}
 
         <input type='submit' className='btn btn-primary' value='Filter' />
       </form>
