@@ -13,11 +13,11 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   // === useState ===
   // skill
   const [skill, setSkill] = useState('');
-  const { skillName } = skill;
+  const { skillName = '' } = skill;
 
   // location
   const [location, setLocation] = useState('');
-  const { locationName } = location;
+  const { locationName = '' } = location;
 
   // value state: to save the value input from the search bar
   const [value, setValue] = useState('');
@@ -67,13 +67,11 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
   // click on skill
   const skillOnClick = () => {
-    console.log('clicked...');
     setActivated({ skillActivated: true, locationActivated: false });
   };
 
   // click on location
   const locationOnClick = () => {
-    console.log('clicked...');
     setActivated({ skillActivated: false, locationActivated: true });
   };
 
