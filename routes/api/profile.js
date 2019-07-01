@@ -72,12 +72,15 @@ router.post(
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
+    if (location) profileFields.location = location.toUpperCase();
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
-      profileFields.skills = skills.split(',').map(skill => skill.trim());
+      profileFields.skills = skills
+        .toUpperCase()
+        .split(',')
+        .map(skill => skill.trim());
     }
 
     // Build social object
