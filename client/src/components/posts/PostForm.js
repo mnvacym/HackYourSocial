@@ -16,7 +16,7 @@ const PostForm = ({ addPost }) => {
         className='form my-2'
         onSubmit={e => {
           e.preventDefault();
-          addPost({ title, text });
+          addPost({ title: title.trim(), text: text.trim() });
           setText('');
           setTitle('');
         }}
