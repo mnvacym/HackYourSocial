@@ -7,7 +7,6 @@ import { register, verifyAccount } from '../../actions/auth';
 const AfterConfirmation = ({ verifyAccount, match }) => {
   useEffect(() => {
     verifyAccount(match.params.token);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verifyAccount]);
 
   return (
