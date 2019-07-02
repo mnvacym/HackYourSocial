@@ -16,19 +16,21 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
   const {
     id: socialId,
     displayName: name,
+    username,
     emails: [{ value: email }],
     photos: [{ value: avatar }],
   } = profile;
+
   try {
     // See if user exists
     let user = await User.findOne({ email });
 
     //if user does not exist create and save user
     if (!user) {
-      const password = generateRandomPass(name); // Password is required
+      const password = generateRandomPass(name + socialId); // Password is required
 
       user = new User({
-        name,
+        name: name || username,
         email,
         avatar,
         password,
@@ -39,10 +41,11 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 
       // Encrypt password
       const salt = await bcrypt.genSalt(10);
-
       user.password = await bcrypt.hash(user.password, salt);
-      await user.save();
     }
+
+    user.isVerified = true;
+    await user.save();
 
     // Return jsonwebtoken
     const payload = {
@@ -69,8 +72,8 @@ passport.use(
       callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done)
-  )
+      checkAndCreateUser(accessToken, refreshToken, profile, done),
+  ),
 );
 
 // Facebook Strategy
@@ -83,8 +86,8 @@ passport.use(
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done)
-  )
+      checkAndCreateUser(accessToken, refreshToken, profile, done),
+  ),
 );
 
 // Github Strategy
@@ -97,6 +100,6 @@ passport.use(
       scope: 'user:email',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done)
-  )
+      checkAndCreateUser(accessToken, refreshToken, profile, done),
+  ),
 );
