@@ -17,7 +17,7 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
   const [checkSearch, setCheckSearch] = useState(false);
 
   if (!isVerified) {
-    return <Redirect to="/verification" />;
+    return <Redirect to='/verification' />;
   }
 
   const onChange = e => setUserInput(e.target.value);
@@ -31,34 +31,39 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
     setCheckSearch(true);
   };
 
-  let searchedPosts = posts.filter(post =>
-    post.text
-      .toString()
-      .toLowerCase()
-      .includes(searchValue)
+  let searchedPosts = posts.filter(
+    post =>
+      post.text
+        .toString()
+        .toLowerCase()
+        .includes(searchValue) ||
+      post.title
+        .toString()
+        .toLowerCase()
+        .includes(searchValue)
   );
 
   return loading ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="large text-primary">Posts</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Welcome to the community
+      <h1 className='large text-primary'>Posts</h1>
+      <p className='lead'>
+        <i className='fas fa-user' /> Welcome to the community
       </p>
 
-      <h4 className="large text-primary">Search the posts</h4>
-      <form className="form" onSubmit={e => findPosts(e)}>
-        <div className="form-group">
+      <h4 className='large text-primary'>Search the posts</h4>
+      <form className='form' onSubmit={e => findPosts(e)}>
+        <div className='form-group'>
           <input
-            type="text"
-            placeholder="Posts"
-            name="userInput"
+            type='text'
+            placeholder='Posts'
+            name='userInput'
             value={userInput}
             onChange={e => onChange(e)}
           />
         </div>
-        <input type="submit" className="btn btn-primary" value="Find" />
+        <input type='submit' className='btn btn-primary' value='Find' />
       </form>
       <br />
       <hr />
@@ -67,7 +72,7 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
 
       <PostForm />
 
-      <div className="posts">
+      <div className='posts'>
         {!checkSearch ? (
           posts.map(post => <PostItem key={post._id} post={post} />)
         ) : searchedPosts.length > 0 ? (
