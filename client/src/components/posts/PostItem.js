@@ -47,20 +47,20 @@ const PostItem = ({
               <i className='fas fa-times' />
             </button>
           )}
-          <div>
-            <h4 className='shr-btn shr-text'>Share on: </h4>
+          <div className='social-parent'>
+            <h4 className='shr-text shr-btn'>Share on: </h4>
             <TwitterShareButton
               url={`http://localhost:3000/posts/${_id}`}
               title={title}
               className='shr-btn twitter'
             >
-              <TwitterIcon size={40} round={false} />
+              <TwitterIcon size={38} round={true} />
             </TwitterShareButton>
             <LinkedinShareButton
               url={`http://localhost:3000/posts/${_id}`}
               className='shr-btn linkedin'
             >
-              <LinkedinIcon size={40} round={false} />
+              <LinkedinIcon size={38} round={true} />
             </LinkedinShareButton>
           </div>
         </Fragment>
@@ -87,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addLike, addUnLike, deletePost }
+  { addLike, addUnLike, deletePost },
 )(PostItem);
