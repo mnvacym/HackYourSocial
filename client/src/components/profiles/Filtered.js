@@ -53,6 +53,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   // filter profiles by:
   skillActivated
     ? // skills
+      // eslint-disable-next-line array-callback-return
       profiles.map(profile => {
         if (profile.skills) {
           profile.skills.map(skill => skill.toUpperCase()).includes(inputValue) &&
@@ -60,6 +61,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
         }
       })
     : // location
+      // eslint-disable-next-line array-callback-return
       profiles.map(profile => {
         if (profile.location) {
           profile.location.toUpperCase() === inputValue && filtered_profiles.push(profile);

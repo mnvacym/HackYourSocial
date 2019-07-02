@@ -14,6 +14,7 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
     if (isPasswordReset) {
       setFormData({ ...formData, email: '' });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setFormData]);
 
   const clearPasswordReset = e => {
@@ -34,8 +35,8 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
     <Fragment>
       {isPasswordReset ? (
         <Fragment>
-          <div className="row justify-content-center">
-            <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+          <div className='row justify-content-center'>
+            <div className='col-10 col-sm-7 col-md-5 col-lg-4'>
               <p>
                 An email has been sent to email address you provided containing a link to reset your
                 password. Please click on that link to proceed with setting a new password.
@@ -44,7 +45,7 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
 
               <p>And please check your spam box.</p>
               <p>
-                <a href="/auth/reset-password" onClick={() => clearPasswordReset()}>
+                <a href='/auth/reset-password' onClick={() => clearPasswordReset()}>
                   Re-send Email
                 </a>
               </p>
@@ -57,21 +58,21 @@ const ResetPasswordPage = ({ isPasswordReset, createHash, passwordResetClear }) 
             If you want to reset your password, please enter your email here and a link will be sent
             to your email address to reset your password.
           </p>
-          <form className="form" onSubmit={e => onSubmit(e)}>
-            <div className="form-group">
+          <form className='form' onSubmit={e => onSubmit(e)}>
+            <div className='form-group'>
               <input
-                id="userEmail"
-                name="email"
+                id='userEmail'
+                name='email'
                 onChange={e => handleEmailChange(e)}
-                placeholder="Please enter your email here."
+                placeholder='Please enter your email here.'
                 required
-                type="email"
+                type='email'
                 value={email}
               />
             </div>
 
-            <p className="lead">A valid email is required to reset your password</p>
-            <input type="submit" className="btn btn-primary" value="Reset Password" />
+            <p className='lead'>A valid email is required to reset your password</p>
+            <input type='submit' className='btn btn-primary' value='Reset Password' />
           </form>
         </Fragment>
       )}

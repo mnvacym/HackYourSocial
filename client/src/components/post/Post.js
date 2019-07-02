@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PostItem from '../posts/PostItem';
@@ -38,7 +38,6 @@ Post.propTypes = {
 
 const mapStateToProps = state => ({
   post: state.post,
-  
 });
 
 export default connect(

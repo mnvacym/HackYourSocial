@@ -7,18 +7,19 @@ import { register, verifyAccount } from '../../actions/auth';
 const AfterConfirmation = ({ verifyAccount, match }) => {
   useEffect(() => {
     verifyAccount(match.params.token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verifyAccount]);
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Verification</h1>
-      <p className="lead">
+      <h1 className='large text-primary'>Verification</h1>
+      <p className='lead'>
         Your account is verified. You can go to your dashboard by clicking this{' '}
-        <Link to="/dashboard">link</Link>.
+        <Link to='/dashboard'>link</Link>.
       </p>
 
-      <p className="my-1">Have a nice networking! Thank you.</p>
-      <p className="my-1">Hack Your Social Team.</p>
+      <p className='my-1'>Have a nice networking! Thank you.</p>
+      <p className='my-1'>Hack Your Social Team.</p>
     </Fragment>
   );
 };
