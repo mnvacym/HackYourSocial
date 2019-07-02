@@ -54,14 +54,15 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   skillActivated
     ? // skills
       profiles.map(profile => {
-        profile.skills.length !== 0 &&
-          profile.skills.includes(inputValue) &&
-          filtered_profiles.push(profile);
+        if (profile.skills) {
+          profile.skills.map(skill => skill.toUpperCase()).includes(inputValue) &&
+            filtered_profiles.push(profile);
+        }
       })
     : // location
       profiles.map(profile => {
         if (profile.location) {
-          profile.location === inputValue && filtered_profiles.push(profile);
+          profile.location.toUpperCase() === inputValue && filtered_profiles.push(profile);
         }
       });
 
