@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { TwitterShareButton, TwitterIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import { addLike, addUnLike, deletePost } from '../../actions/post';
 
+const baseURL = window.location.href;
+
 const PostItem = ({
   addLike,
   addUnLike,
@@ -49,17 +51,10 @@ const PostItem = ({
           )}
           <div className='social-parent'>
             <h4 className='shr-text shr-btn'>Share on: </h4>
-            <TwitterShareButton
-              url={`http://localhost:3000/posts/${_id}`}
-              title={title}
-              className='shr-btn twitter'
-            >
+            <TwitterShareButton url={`${baseURL}/${_id}`} title={title} className='shr-btn twitter'>
               <TwitterIcon size={38} round={true} />
             </TwitterShareButton>
-            <LinkedinShareButton
-              url={`http://localhost:3000/posts/${_id}`}
-              className='shr-btn linkedin'
-            >
+            <LinkedinShareButton url={`${baseURL}/${_id}`} className='shr-btn linkedin'>
               <LinkedinIcon size={38} round={true} />
             </LinkedinShareButton>
           </div>
@@ -87,5 +82,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addLike, addUnLike, deletePost },
+  { addLike, addUnLike, deletePost }
 )(PostItem);
