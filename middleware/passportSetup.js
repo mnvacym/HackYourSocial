@@ -14,6 +14,8 @@ const generateRandomPass = name => {
 
 const checkAndCreateUser = async (accessToken, refreshToken, profile, done, account) => {
   console.log(profile);
+  console.log(account);
+
   const {
     id: socialId,
     displayName: name,
@@ -21,8 +23,17 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
     photos: [{ value: avatar }],
   } = profile;
   try {
+    let user;
     // See if user exists
-    let user = await User.findOne({ email });
+    if (!email) {
+      // const socialAccount = social[account];
+      user = await User.findOne({ account: socialId });
+    } else {
+      user = await User.findOne({ email });
+    }
+
+    console.log(socialId);
+    console.log(user);
 
     //if user does not exist create and save user
     if (!user) {
