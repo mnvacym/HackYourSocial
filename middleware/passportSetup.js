@@ -42,8 +42,11 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(user.password, salt);
-      await user.save();
     }
+
+    user.isVerified = true;
+    user.social[account] = socialId;
+    await user.save();
 
     // Return jsonwebtoken
     const payload = {
