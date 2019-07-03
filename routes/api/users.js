@@ -10,7 +10,6 @@ Sgmail.setApiKey(config.get('sendgrid'));
 
 const User = require('../../models/User');
 
-
 // send verification email
 const sendVerificationToken = async user => {
   // configure jsonwebtoken for expiring reset request
