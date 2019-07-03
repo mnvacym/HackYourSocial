@@ -3,13 +3,13 @@ const passport = require('passport');
 const router = express.Router();
 
 const redirectOptions = {
-  failureRedirect: 'http://localhost:3000/',
+  failureRedirect: 'https://stormy-garden-42594.herokuapp.com/',
   session: false,
 };
 
 const sendToken = (req, res) => {
   const token = req.user;
-  res.redirect('http://localhost:3000/register?token=' + token);
+  res.redirect('https://stormy-garden-42594.herokuapp.com/register?token=' + token);
 };
 
 // Google

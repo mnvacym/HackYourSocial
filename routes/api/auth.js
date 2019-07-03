@@ -147,13 +147,15 @@ router.post(
         <div class="navbar bg-dark"><h1><i class="fas fa-code" aria-hidden="true"></i>HackYourSocial</div>
         <h2>Hi ${foundUser.name},</h2>
         <p>We've received a request to reset your password. Click the button below to reset it</p>  
-        <form action="http://localhost:3000/auth/change-password/${foundUser.passwordReset}">
+        <form action="https://stormy-garden-42594.herokuapp.com/auth/change-password/${
+          foundUser.passwordReset
+        }">
           <input class="btn btn-primary" type="submit" value="Reset My Password" />
         </form>
         <p>If you didn't make the request please ignore this email, or reply to let us know. This password reset is valid only for next 30 minutes</p>
-        <p>If you're having trouble with clicking the password reset button, copy and paste the URL below into your web browser.</p> <a href="http://localhost:3000/auth/change-password/${
+        <p>If you're having trouble with clicking the password reset button, copy and paste the URL below into your web browser.</p> <a href="https://stormy-garden-42594.herokuapp.com/auth/change-password/${
           foundUser.passwordReset
-        }" target="_blank">http://localhost:3000/auth/change-password/${
+        }" target="_blank">https://stormy-garden-42594.herokuapp.com/auth/change-password/${
           foundUser.passwordReset
         }</a></p>
         <p>Thanks,</p>

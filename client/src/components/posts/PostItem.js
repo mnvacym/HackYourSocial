@@ -50,14 +50,14 @@ const PostItem = ({
           <div>
             <h4 className='shr-btn shr-text'>Share on: </h4>
             <TwitterShareButton
-              url={`http://localhost:3000/posts/${_id}`}
+                url={`https://stormy-garden-42594.herokuapp.com/posts/${_id}`}
               title={title}
               className='shr-btn twitter'
             >
               <TwitterIcon size={40} round={false} />
             </TwitterShareButton>
             <LinkedinShareButton
-              url={`http://localhost:3000/posts/${_id}`}
+                url={`https://stormy-garden-42594.herokuapp.com/posts/${_id}`}
               className='shr-btn linkedin'
             >
               <LinkedinIcon size={40} round={false} />

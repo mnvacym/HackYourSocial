@@ -66,7 +66,8 @@ passport.use(
     {
       clientID: config.get('google.clientId'),
       clientSecret: config.get('google.secret'),
-      callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
+      // callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
+      callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
       checkAndCreateUser(accessToken, refreshToken, profile, done)
@@ -79,7 +80,8 @@ passport.use(
     {
       clientID: config.get('facebook.clientId'),
       clientSecret: config.get('facebook.secret'),
-      callbackURL: 'http://localhost:5000/api/auth/social/facebook/redirect',
+      // callbackURL: 'http://localhost:5000/api/auth/social/facebook/redirect',
+      callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
@@ -93,7 +95,8 @@ passport.use(
     {
       clientID: config.get('github.clientId'),
       clientSecret: config.get('github.secret'),
-      callbackURL: 'http://localhost:5000/api/auth/social/github/redirect',
+      // callbackURL: 'http://localhost:5000/api/auth/social/github/redirect',
+      callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/github/redirect',
       scope: 'user:email',
     },
     (accessToken, refreshToken, profile, done) =>

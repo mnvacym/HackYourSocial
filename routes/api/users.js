@@ -80,12 +80,12 @@ const sendVerificationToken = async user => {
     <p>Welcome to HackYourSocial!</p>
     <p>You're almost ready to start enjoying HackYourSocial</p>
     <p>Simply click the big orange button below to verify your e-mail address</p>  
-    <form action="http://localhost:3000/users/verify/${user.verifyToken}">
+    <form action="https://stormy-garden-42594.herokuapp.com/users/verify/${user.verifyToken}">
       <input class="btn btn-primary" type="submit" value="Verify My E-mail" />
     </form>
-    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> <a href="http://localhost:3000/users/verify/${
+    <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> <a href="https://stormy-garden-42594.herokuapp.com/users/verify/${
       user.verifyToken
-    }" target="_blank">http://localhost:3000/users/verify/${user.verifyToken}</a></p>
+    }" target="_blank">https://stormy-garden-42594.herokuapp.com/users/verify/${user.verifyToken}</a></p>
     <p>Thanks,</p>
     <p>Hack Your Social Team</p>
     </body>

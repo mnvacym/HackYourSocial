@@ -27,7 +27,8 @@ const Landing = ({ isAuthenticated }) => {
             <div className="social-buttons">
               {/* Google sign in button */}
               <a
-                href="http://localhost:5000/api/auth/social/google"
+                // href="http://localhost:5000/api/auth/social/google"
+                href="https://stormy-garden-42594.herokuapp.com/api/auth/social/google"
                 className="social-button google"
               >
                 <div>
@@ -58,7 +59,8 @@ const Landing = ({ isAuthenticated }) => {
               </a>
               {/* Github sign in button */}
               <a
-                href="http://localhost:5000/api/auth/social/github"
+                // href="http://localhost:5000/api/auth/social/github"
+                href="https://stormy-garden-42594.herokuapp.com/api/auth/social/github"
                 className="social-button github"
               >
                 <div className="github-button-content">
@@ -71,7 +73,8 @@ const Landing = ({ isAuthenticated }) => {
               </a>
               {/* Facebook sign in button */}
               <a
-                href="http://localhost:5000/api/auth/social/facebook"
+                // href="http://localhost:5000/api/auth/social/facebook"
+                href="https://stormy-garden-42594.herokuapp.com/api/auth/social/facebook"
                 className="social-button facebook"
               >
                 <div>
