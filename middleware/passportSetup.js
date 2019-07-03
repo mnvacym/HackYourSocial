@@ -82,7 +82,7 @@ passport.use(
       clientSecret: config.get('facebook.secret'),
       // callbackURL: 'http://localhost:5000/api/auth/social/facebook/redirect',
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/facebook/redirect',
-      profileFields: ['id', 'displayName', 'photos', 'email'],
+      // profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
       checkAndCreateUser(accessToken, refreshToken, profile, done)
