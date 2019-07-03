@@ -16,14 +16,12 @@
     "@sendgrid/mail": "^6.4.0",
     "availity-reactstrap-validation": "^2.5.4",
     "bcryptjs": "^2.4.3",
-    "config": "^3.1.0",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.11",
-    "sendgrid": "^5.2.3",
-    "reactstrap": "^8.0.0",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-github": "^1.1.0",
@@ -32,7 +30,9 @@
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-share": "^3.0.0",
-    "request": "^2.88.0"
+    "reactstrap": "^8.0.0",
+    "request": "^2.88.0",
+    "sendgrid": "^5.2.3"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",

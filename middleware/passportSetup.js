@@ -2,7 +2,7 @@ const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const config = require('config');
+const dotenv = require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -54,7 +54,7 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
       },
     };
 
-    jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, process.env.jwtSecret, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
       done(null, token);
     });
@@ -67,8 +67,8 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 passport.use(
   new GoogleStrategy(
     {
-      clientID: config.get('google.clientId'),
-      clientSecret: config.get('google.secret'),
+      clientID: process.env.googleClientId,
+      clientSecret: process.env.googleSecret,
       callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
@@ -80,8 +80,8 @@ passport.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: config.get('facebook.clientId'),
-      clientSecret: config.get('facebook.secret'),
+      clientID: process.env.facebookClientId,
+      clientSecret: process.env.facebookSecret,
       callbackURL: 'http://localhost:5000/api/auth/social/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
@@ -94,8 +94,8 @@ passport.use(
 passport.use(
   new GithubStrategy(
     {
-      clientID: config.get('github.clientId'),
-      clientSecret: config.get('github.secret'),
+      clientID: process.env.githubClientId,
+      clientSecret: process.env.githubSecret,
       callbackURL: 'http://localhost:5000/api/auth/social/github/redirect',
       scope: 'user:email',
     },
