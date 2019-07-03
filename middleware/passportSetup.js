@@ -14,8 +14,6 @@ const generateRandomPass = name => {
 
 const checkAndCreateUser = async (accessToken, refreshToken, profile, done, account) => {
   console.log(profile);
-  console.log(account);
-
   const {
     id: socialId,
     displayName: name,
@@ -23,17 +21,8 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
     photos: [{ value: avatar }],
   } = profile;
   try {
-    let user;
     // See if user exists
-    if (!email) {
-      // const socialAccount = social[account];
-      user = await User.findOne({ account: socialId });
-    } else {
-      user = await User.findOne({ email });
-    }
-
-    console.log(socialId);
-    console.log(user);
+    let user = await User.findOne({ email });
 
     //if user does not exist create and save user
     if (!user) {
@@ -78,11 +67,10 @@ passport.use(
     {
       clientID: config.get('google.clientId'),
       clientSecret: config.get('google.secret'),
-      // callbackURL: 'http://localhost:5000/api/auth/social/google/redirect',
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done)
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'google')
   )
 );
 
@@ -92,12 +80,11 @@ passport.use(
     {
       clientID: config.get('facebook.clientId'),
       clientSecret: config.get('facebook.secret'),
-      // callbackURL: 'http://localhost:5000/api/auth/social/facebook/redirect',
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done)
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'facebook')
   )
 );
 
@@ -107,11 +94,10 @@ passport.use(
     {
       clientID: config.get('github.clientId'),
       clientSecret: config.get('github.secret'),
-      // callbackURL: 'http://localhost:5000/api/auth/social/github/redirect',
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/github/redirect',
       scope: 'user:email',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done)
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'github')
   )
 );
