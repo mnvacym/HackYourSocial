@@ -19,6 +19,7 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
     emails: [{ value: email }],
     photos: [{ value: avatar }],
   } = profile;
+  console.log(profile);
   try {
     // See if user exists
     let user = await User.findOne({ email });
