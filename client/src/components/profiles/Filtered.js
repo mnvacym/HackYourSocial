@@ -62,7 +62,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
     // skills
     if (skillActivated) {
       profiles.map(profile => {
-        if (profile.skills.length > 0) {
+        if (profile.skills) {
           profile.skills.map(skill => skill.toUpperCase()).includes(inputValue) &&
             filtered_profiles.push(profile);
         }
