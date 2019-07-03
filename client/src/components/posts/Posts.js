@@ -26,9 +26,16 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
 
   const findPosts = e => {
     e.preventDefault();
-    setSearchAll({ searchValue: userInput.toLowerCase() });
+    if (userInput.trim() !== '') {
+      setSearchAll({ searchValue: userInput.toLowerCase() });
+      setCheckSearch(true);
+    }
     setUserInput('');
-    setCheckSearch(true);
+  };
+
+  const returnToAllPosts = e => {
+    e.preventDefault();
+    setCheckSearch(false);
   };
 
   let searchedPosts = posts.filter(
@@ -52,12 +59,17 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
         <i className='fas fa-user' /> Welcome to the community
       </p>
 
-      <h4 className='large text-primary'>Search the posts</h4>
+      <br />
+      <hr />
+      <hr />
+      <br />
+
+      <h2 className='text-primary lead-1'>Search the posts</h2>
       <form className='form' onSubmit={e => findPosts(e)}>
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Posts'
+            placeholder='Search in the posts'
             name='userInput'
             value={userInput}
             onChange={e => onChange(e)}
@@ -72,7 +84,24 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
 
       <PostForm />
 
+      <hr />
+      <hr />
+      <br />
+
       <div className='posts'>
+        {!checkSearch ? (
+          <h2 className='text-primary lead-1'>All the posts</h2>
+        ) : (
+          <Fragment>
+            <h2 className='text-primary lead-1'>Search Result</h2>
+            <input
+              type='submit'
+              className='btn btn-primary'
+              value='Return'
+              onClick={e => returnToAllPosts(e)}
+            />
+          </Fragment>
+        )}
         {!checkSearch ? (
           posts.map(post => <PostItem key={post._id} post={post} />)
         ) : searchedPosts.length > 0 ? (

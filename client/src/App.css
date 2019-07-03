@@ -48,10 +48,15 @@ img {
   line-height: 1.2;
   margin-bottom: 1rem;
 }
+.lead-1 {
+  font-size: 1.7rem;
+  margin-bottom: 1rem;
+}
 .lead {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
 .text-center {
   text-align: center;
 }
