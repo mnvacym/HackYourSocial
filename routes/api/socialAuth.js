@@ -35,7 +35,7 @@ router.get('/github/redirect', passport.authenticate('github', redirectOptions),
 router.get(
   '/facebook',
   passport.authenticate('facebook', {
-    scope: ['profile', 'email'],
+    scope: ['email'],
   })
 );
 // Callback route to redirect to
