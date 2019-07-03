@@ -64,6 +64,13 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
       <hr />
       <br />
 
+      <PostForm />
+
+      <br />
+      <hr />
+      <hr />
+      <br />
+
       <h2 className='text-primary lead-1'>Search the posts</h2>
       <form className='form' onSubmit={e => findPosts(e)}>
         <div className='form-group'>
@@ -78,12 +85,6 @@ const Posts = ({ getPosts, post: { posts, loading }, isVerified }) => {
         <input type='submit' className='btn btn-primary' value='Find' />
       </form>
       <br />
-      <hr />
-      <hr />
-      <br />
-
-      <PostForm />
-
       <hr />
       <hr />
       <br />
