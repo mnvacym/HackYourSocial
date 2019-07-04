@@ -38,6 +38,7 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
         social: {
           [account]: socialId,
         },
+        isVerified,
       });
 
       // Encrypt password
@@ -74,8 +75,8 @@ passport.use(
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done, 'google'),
-  ),
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'google')
+  )
 );
 
 // Facebook Strategy
@@ -88,8 +89,8 @@ passport.use(
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done, 'facebook'),
-  ),
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'facebook')
+  )
 );
 
 // Github Strategy
@@ -102,6 +103,6 @@ passport.use(
       scope: 'user:email',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done, 'github'),
-  ),
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'github')
+  )
 );
