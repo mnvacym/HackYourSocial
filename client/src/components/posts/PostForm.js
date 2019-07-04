@@ -10,13 +10,13 @@ const PostForm = ({ addPost }) => {
   return (
     <div className='post-form'>
       <div className='bg-primary p'>
-        <h3>Say Something...</h3>
+        <h2>Say Something...</h2>
       </div>
       <form
         className='form my-2'
         onSubmit={e => {
           e.preventDefault();
-          addPost({ title, text });
+          addPost({ title: title.trim(), text: text.trim() });
           setText('');
           setTitle('');
         }}

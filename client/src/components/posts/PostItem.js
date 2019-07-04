@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { TwitterShareButton, TwitterIcon, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import { addLike, addUnLike, deletePost } from '../../actions/post';
 
+const baseURL = window.location.href;
+
 const PostItem = ({
   addLike,
   addUnLike,
@@ -47,20 +49,13 @@ const PostItem = ({
               <i className='fas fa-times' />
             </button>
           )}
-          <div>
-            <h4 className='shr-btn shr-text'>Share on: </h4>
-            <TwitterShareButton
-                url={`https://stormy-garden-42594.herokuapp.com/posts/${_id}`}
-              title={title}
-              className='shr-btn twitter'
-            >
-              <TwitterIcon size={40} round={false} />
+          <div className='social-parent'>
+            <h4 className='shr-text shr-btn'>Share on: </h4>
+            <TwitterShareButton url={`${baseURL}/${_id}`} title={title} className='shr-btn twitter'>
+              <TwitterIcon size={38} round={true} />
             </TwitterShareButton>
-            <LinkedinShareButton
-                url={`https://stormy-garden-42594.herokuapp.com/posts/${_id}`}
-              className='shr-btn linkedin'
-            >
-              <LinkedinIcon size={40} round={false} />
+            <LinkedinShareButton url={`${baseURL}/${_id}`} className='shr-btn linkedin'>
+              <LinkedinIcon size={38} round={true} />
             </LinkedinShareButton>
           </div>
         </Fragment>
