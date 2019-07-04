@@ -35,7 +35,6 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
         email,
         avatar,
         password,
-        isVerified,
         social: {
           [account]: socialId,
         },
@@ -49,6 +48,8 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
     user.isVerified = true;
     user.social[account] = socialId;
     await user.save();
+
+    console.log(user);
 
     // Return jsonwebtoken
     const payload = {
