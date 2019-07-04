@@ -35,10 +35,10 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
         email,
         avatar,
         password,
+        isVerified,
         social: {
           [account]: socialId,
         },
-        isVerified,
       });
 
       // Encrypt password
