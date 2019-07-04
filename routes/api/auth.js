@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 const Sgmail = require('@sendgrid/mail');
-Sgmail.setApiKey(config.get('sendgrid');
+Sgmail.setApiKey(config.get('sendgrid'));
 
 // @route   GET api/auth
 // @desc    Gets the authorized user
@@ -64,7 +64,7 @@ router.post(
     } catch (err) {
       res.status(500).send('Server error');
     }
-  },
+  }
 );
 
 // @route   POST api/auth/saveresethash
@@ -175,7 +175,7 @@ router.post(
         ],
       });
     }
-  },
+  }
 );
 
 // @route   POST api/auth/savepassword
@@ -223,7 +223,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  },
+  }
 );
 
 module.exports = router;
