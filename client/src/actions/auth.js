@@ -29,8 +29,6 @@ export const loadUser = () => async dispatch => {
   try {
     const res = await axios.get('/api/auth');
 
-    console.log(res);
-
     if (res.data.isVerified) {
       dispatch({
         type: USER_LOADED,
@@ -46,8 +44,6 @@ export const loadUser = () => async dispatch => {
       });
     }
   } catch (err) {
-    console.log(err);
-
     dispatch({
       type: AUTH_ERROR,
     });
