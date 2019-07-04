@@ -159,7 +159,7 @@ router.post(
           id: user.id,
         },
       };
-      jwt.sign(payload, process.env.jwtSecret, { expiresIn: 360000 }, (err, token) => {
+      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
@@ -189,7 +189,7 @@ router.post(
     const { verifyToken } = req.body;
 
     try {
-      jwt.verify(verifyToken, process.env.verificationSecret);
+      jwt.verify(verifyToken, config.get('verificationSecret'));
 
       const user = await User.findOne({ verifyToken });
 
