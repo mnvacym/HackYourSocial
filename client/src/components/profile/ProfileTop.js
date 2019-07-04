@@ -11,6 +11,8 @@ const ProfileTop = ({
     user: { name, avatar },
   },
 }) => {
+  const http = 'http://';
+  const websitePath = http + website;
   return (
     <div className="profile-top bg-primary p-2">
       <img className="round-img my-1" src={avatar} alt="" />
@@ -21,7 +23,7 @@ const ProfileTop = ({
       <p>{location && <span>{location}</span>}</p>
       <div className="icons my-1">
         {website && (
-          <a href={website} target="_blank" rel="noopener noreferrer">
+          <a href={websitePath} target="_blank" rel="noopener noreferrer">
             <i className="fas fa-globe fa-2x" />
           </a>
         )}

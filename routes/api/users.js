@@ -3,10 +3,10 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const dotenv = require('dotenv').config();
 const { check, validationResult } = require('express-validator/check');
 const Sgmail = require('@sendgrid/mail');
-Sgmail.setApiKey(config.get('sendgrid'));
+Sgmail.setApiKey(process.env.sendgrid);
 
 const User = require('../../models/User');
 
@@ -23,7 +23,7 @@ const sendVerificationToken = async user => {
     },
   };
 
-  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 1800 });
+  user.verifyToken = jwt.sign(payload, process.env.verificationSecret, { expiresIn: 1800 });
   await user.save();
 
   // send email
@@ -157,14 +157,14 @@ router.post(
           id: user.id,
         },
       };
-      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+      jwt.sign(payload, process.env.jwtSecret, { expiresIn: 360000 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
     } catch (err) {
       res.status(500).send('Server error');
     }
-  }
+  },
 );
 
 // @route   POST api/users/verify
@@ -187,7 +187,7 @@ router.post(
     const { verifyToken } = req.body;
 
     try {
-      jwt.verify(verifyToken, config.get('verificationSecret'));
+      jwt.verify(verifyToken, process.env.verificationSecret);
 
       const user = await User.findOne({ verifyToken });
 
@@ -207,7 +207,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  }
+  },
 );
 
 // @route   POST api/users/resendconfirmation
@@ -238,7 +238,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  }
+  },
 );
 
 module.exports = router;

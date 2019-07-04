@@ -2,7 +2,7 @@ const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const config = require('config');
+const dotenv = require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -17,19 +17,21 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
   const {
     id: socialId,
     displayName: name,
+    username,
     emails: [{ value: email }],
     photos: [{ value: avatar }],
   } = profile;
+
   try {
     // See if user exists
     let user = await User.findOne({ email });
 
     //if user does not exist create and save user
     if (!user) {
-      const password = generateRandomPass(name); // Password is required
+      const password = generateRandomPass(name + socialId); // Password is required
 
       user = new User({
-        name,
+        name: name || username,
         email,
         avatar,
         password,
@@ -40,7 +42,6 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 
       // Encrypt password
       const salt = await bcrypt.genSalt(10);
-
       user.password = await bcrypt.hash(user.password, salt);
     }
 
@@ -55,7 +56,7 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
       },
     };
 
-    jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, process.env.jwtSecret, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
       done(null, token);
     });
@@ -68,39 +69,39 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 passport.use(
   new GoogleStrategy(
     {
-      clientID: config.get('google.clientId'),
-      clientSecret: config.get('google.secret'),
+      clientID: process.env.googleClientId,
+      clientSecret: process.env.googleSecret,
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done, 'google')
-  )
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'google'),
+  ),
 );
 
 // Facebook Strategy
 passport.use(
   new FacebookStrategy(
     {
-      clientID: config.get('facebook.clientId'),
-      clientSecret: config.get('facebook.secret'),
+      clientID: process.env.facebookClientId,
+      clientSecret: process.env.facebookSecret,
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done, 'facebook')
-  )
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'facebook'),
+  ),
 );
 
 // Github Strategy
 passport.use(
   new GithubStrategy(
     {
-      clientID: config.get('github.clientId'),
-      clientSecret: config.get('github.secret'),
+      clientID: process.env.githubClientId,
+      clientSecret: process.env.githubSecret,
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/github/redirect',
       scope: 'user:email',
     },
     (accessToken, refreshToken, profile, done) =>
-      checkAndCreateUser(accessToken, refreshToken, profile, done, 'github')
-  )
+      checkAndCreateUser(accessToken, refreshToken, profile, done, 'github'),
+  ),
 );

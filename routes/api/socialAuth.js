@@ -17,18 +17,18 @@ router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-  })
+  }),
 );
 // Callback route to redirect to
 router.get('/google/redirect', passport.authenticate('google', redirectOptions), (req, res) =>
-  sendToken(req, res)
+  sendToken(req, res),
 );
 
 // Github
 router.get('/github', passport.authenticate('github'));
 // Callback route to redirect to
 router.get('/github/redirect', passport.authenticate('github', redirectOptions), (req, res) =>
-  sendToken(req, res)
+  sendToken(req, res),
 );
 
 // Facebook
@@ -40,7 +40,7 @@ router.get(
 );
 // Callback route to redirect to
 router.get('/facebook/redirect', passport.authenticate('facebook', redirectOptions), (req, res) =>
-  sendToken(req, res)
+  sendToken(req, res),
 );
 
 module.exports = router;

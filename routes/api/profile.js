@@ -1,6 +1,6 @@
 const express = require('express');
 const request = require('request');
-const config = require('config');
+const dotenv = require('dotenv').config();
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
@@ -96,7 +96,7 @@ router.post(
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
-          { new: true }
+          { new: true },
         );
 
         return res.json(profile);
@@ -110,7 +110,7 @@ router.post(
     } catch (err) {
       res.status(500).send('Server Error!');
     }
-  }
+  },
 );
 
 // @route   GET api/profile
@@ -216,7 +216,7 @@ router.put(
       console.error(err.message);
       res.status(500).send('Server Error');
     }
-  }
+  },
 );
 
 // @route    DELETE api/profile/experience/:exp_id
@@ -292,7 +292,7 @@ router.put(
       console.error(err.message);
       res.status(500).send('Server Error');
     }
-  }
+  },
 );
 
 // @route    DELETE api/profile/education/:edu_id
@@ -324,9 +324,9 @@ router.get('/github/:username', (req, res) => {
     const options = {
       uri: `https://api.github.com/users/${
         req.params.username
-      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
-        'githubClientId'
-      )}&client_secret=${config.get('githubSecret')}`,
+      }/repos?per_page=5&sort=created:asc&client_id=${process.env.githubClientId}&client_secret=${
+        process.env.githubSecret
+      }`,
       method: 'GET',
       headers: { 'user-agent': 'node.js' },
     };

@@ -1,7 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
-const config = require('config');
 const passport = require('passport');
 const passportSetup = require('./middleware/passportSetup');
 
