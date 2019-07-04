@@ -3,10 +3,10 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv').config();
+const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 const Sgmail = require('@sendgrid/mail');
-Sgmail.setApiKey(process.env.sendgrid);
+Sgmail.setApiKey(config.get('sendgrid'));
 
 const User = require('../../models/User');
 
@@ -23,7 +23,7 @@ const sendVerificationToken = async user => {
     },
   };
 
-  user.verifyToken = jwt.sign(payload, process.env.verificationSecret, { expiresIn: 1800 });
+  user.verifyToken = jwt.sign(payload, config.get('verificationSecret'), { expiresIn: 1800 });
   await user.save();
 
   // send email
@@ -85,7 +85,9 @@ const sendVerificationToken = async user => {
     </form>
     <p>If you're having trouble with clicking the verify e-mail button, copy and paste the URL below into your web browser.</p> <a href="https://stormy-garden-42594.herokuapp.com/users/verify/${
       user.verifyToken
-    }" target="_blank">https://stormy-garden-42594.herokuapp.com/users/verify/${user.verifyToken}</a></p>
+    }" target="_blank">https://stormy-garden-42594.herokuapp.com/users/verify/${
+      user.verifyToken
+    }</a></p>
     <p>Thanks,</p>
     <p>Hack Your Social Team</p>
     </body>

@@ -4,10 +4,10 @@ const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv').config();
+const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 const Sgmail = require('@sendgrid/mail');
-Sgmail.setApiKey(process.env.sendgrid);
+Sgmail.setApiKey(config.get('sendgrid');
 
 // @route   GET api/auth
 // @desc    Gets the authorized user
@@ -57,7 +57,7 @@ router.post(
           id: user.id,
         },
       };
-      jwt.sign(payload, process.env.jwtSecret, { expiresIn: 360000 }, (err, token) => {
+      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
@@ -91,7 +91,7 @@ router.post(
         },
       };
 
-      foundUser.passwordReset = jwt.sign(payload, process.env.passwordChangeSecret, {
+      foundUser.passwordReset = jwt.sign(payload, config.get('passwordChangeSecret'), {
         expiresIn: 1800,
       });
       foundUser.save();
@@ -193,7 +193,7 @@ router.post(
     try {
       const { password, hash: passwordReset } = req.body;
 
-      jwt.verify(passwordReset, process.env.passwordChangeSecret, err => {
+      jwt.verify(passwordReset, config.get('passwordChangeSecret'), err => {
         if (err) {
           return res.status(400).json({
             errors: [{ msg: 'Request is not valid, Please Try again!' }],

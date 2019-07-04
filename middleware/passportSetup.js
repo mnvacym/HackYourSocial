@@ -2,7 +2,7 @@ const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const dotenv = require('dotenv').config();
+const config = require('config');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -56,7 +56,7 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
       },
     };
 
-    jwt.sign(payload, process.env.jwtSecret, { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
       done(null, token);
     });
@@ -69,8 +69,8 @@ const checkAndCreateUser = async (accessToken, refreshToken, profile, done, acco
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.googleClientId,
-      clientSecret: process.env.googleSecret,
+      clientID: config.get('google.clientId'),
+      clientSecret: config.get('google.secret'),
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/google/redirect',
     },
     (accessToken, refreshToken, profile, done) =>
@@ -82,8 +82,8 @@ passport.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env.facebookClientId,
-      clientSecret: process.env.facebookSecret,
+      clientID: config.get('facebook.clientId'),
+      clientSecret: config.get('facebook.secret'),
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     },
@@ -96,8 +96,8 @@ passport.use(
 passport.use(
   new GithubStrategy(
     {
-      clientID: process.env.githubClientId,
-      clientSecret: process.env.githubSecret,
+      clientID: config.get('github.clientId'),
+      clientSecret: config.get('github.secret'),
       callbackURL: 'https://stormy-garden-42594.herokuapp.com/api/auth/social/github/redirect',
       scope: 'user:email',
     },
