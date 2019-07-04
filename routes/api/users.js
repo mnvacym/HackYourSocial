@@ -166,7 +166,7 @@ router.post(
     } catch (err) {
       res.status(500).send('Server error');
     }
-  },
+  }
 );
 
 // @route   POST api/users/verify
@@ -209,7 +209,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  },
+  }
 );
 
 // @route   POST api/users/resendconfirmation
@@ -240,7 +240,7 @@ router.post(
         errors: [{ msg: 'Something went wrong while saving your password. Please Try again!' }],
       });
     }
-  },
+  }
 );
 
 module.exports = router;
