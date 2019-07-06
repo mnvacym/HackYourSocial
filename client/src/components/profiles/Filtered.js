@@ -104,8 +104,10 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   // to display input field for single filter
   const singleFilter = () => (
     <input
-      type='text'
-      placeholder={skillActivated ? 'skill' : 'location'}
+      type="text"
+      placeholder={
+        skillActivated ? 'skill' : locationActivated ? 'location' : 'please choose a filter type'
+      }
       name={skillActivated ? 'skillName' : 'locationName'}
       value={(skillActivated ? skillName : locationName) || ''}
       onChange={e => onChange(e)}
@@ -116,7 +118,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
   const dualFilter = () => (
     <div>
       <input
-        type='text'
+        type="text"
         placeholder={'skill'}
         name={'skillName'}
         value={skillName || ''}
@@ -125,7 +127,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
       />
       <br />
       <input
-        type='text'
+        type="text"
         placeholder={'location'}
         name={'locationName'}
         value={locationName || ''}
@@ -137,29 +139,29 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
 
   return (
     <Fragment>
-      <h4 className='large text-primary'>Filter Profiles by Skill or by Location</h4>
+      <h4 className="large text-primary">Filter Profiles by Skill or by Location</h4>
       <div>
         <h2>Filter By</h2>
         {/* Skill button */}
-        <input type='submit' className='btn btn-primary' value='Skill' onClick={skillOnClick} />
+        <input type="submit" className="btn btn-primary" value="Skill" onClick={skillOnClick} />
         {/* locatoin button */}
         <input
-          type='submit'
-          className='btn btn-primary'
-          value='Location'
+          type="submit"
+          className="btn btn-primary"
+          value="Location"
           onClick={locationOnClick}
         />
         {/* skill & location button */}
         <input
-          type='submit'
-          className='btn btn-primary'
-          value='Skill & Location'
+          type="submit"
+          className="btn btn-primary"
+          value="Skill & Location"
           onClick={bothOnClick}
         />
       </div>
 
-      <form className='form' onSubmit={e => onSubmit(e)}>
-        <div className='form-group'>{!bothActivated ? singleFilter() : dualFilter()}</div>
+      <form className="form" onSubmit={e => onSubmit(e)}>
+        <div className="form-group">{!bothActivated ? singleFilter() : dualFilter()}</div>
         {/* // later to be improved
         {skillActivated && ( 
           <small className='form-text'>
@@ -167,7 +169,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
           </small>
         )} */}
 
-        <input type='submit' className='btn btn-primary' value='Filter' />
+        <input type="submit" className="btn btn-primary" value="Filter" />
       </form>
 
       <br />
@@ -176,7 +178,7 @@ const Filtered = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <div className='profiles'>
+          <div className="profiles">
             {filtered_profiles.length > 0 ? (
               filtered_profiles.map(profile => <ProfileItem key={profile._id} profile={profile} />)
             ) : (
